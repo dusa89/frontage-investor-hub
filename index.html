@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#0d0c0a" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Frontage" />
+<title>Frontage — investor memorandum</title>
+<style>
+:root{
+  --bg:#0d0c0a; --bg2:#151310; --bg3:#1c1915; --line:#2b2620; --line2:#3a332a;
+  --ink:#f4eee1; --ink2:#d9d0bf; --muted:#a89d89; --muted2:#8a7f6d;
+  --copper:#e0965a; --copper-dim:#c17a45; --copper-ink:#1a1006;
+  --sage:#7fb08f; --sage-dim:#4d7a5c;
+  --warn:#e08a63; --danger:#e06a56; --danger-dim:#7a3527;
+  --safe:env(safe-area-inset-bottom,0px); --top:env(safe-area-inset-top,0px);
+  --maxw:920px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:ui-sans-serif,system-ui,"Segoe UI",Helvetica,Arial,sans-serif;
+  font-size:16.5px; line-height:1.6;
+  padding-bottom:calc(86px + var(--safe));
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{font-family:ui-serif,Georgia,"Times New Roman",serif; letter-spacing:-.02em; margin:0 0 .5rem; color:var(--ink); font-weight:600;}
+h1{font-size:clamp(1.95rem,7.6vw,3rem); line-height:1.08;}
+h2{font-size:clamp(1.35rem,4.6vw,1.7rem); line-height:1.18;}
+h3{font-size:1.08rem; line-height:1.3;}
+p{margin:0 0 .85rem; color:var(--ink2);}
+a{color:var(--copper);}
+strong,b{color:var(--ink); font-weight:700;}
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 18px 28px;}
+.section{padding-top:26px; scroll-margin-top:64px;}
+.num{color:var(--muted2); font-size:.72rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase;}
+.kicker{color:var(--copper); font-size:.72rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; margin:0 0 .4rem;}
+.lede{font-size:1.07rem; color:var(--ink2);}
+.rule{height:1px; background:linear-gradient(90deg,var(--line),transparent); margin:22px 0;}
+
+/* progress + topbar */
+.progress{position:fixed; top:0; left:0; height:3px; background:linear-gradient(90deg,var(--copper),var(--sage)); width:0%; z-index:60; transition:width .1s linear;}
+.topbar{position:sticky; top:0; z-index:40; display:flex; align-items:center; gap:10px; padding:calc(10px + var(--top)) 14px 10px; background:rgba(13,12,10,.86); backdrop-filter:blur(10px); border-bottom:1px solid var(--line);}
+.topbar .mark{font-family:ui-serif,Georgia,serif; font-weight:700; font-size:1.02rem; white-space:nowrap;}
+.topbar .stage{font-size:.66rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--copper); border:1px solid var(--copper-dim); border-radius:99px; padding:4px 9px; white-space:nowrap;}
+.topbar .spacer{flex:1;}
+.topbar button.tocbtn{min-height:38px; border:1px solid var(--line2); background:var(--bg3); color:var(--ink); border-radius:10px; padding:0 12px; font:700 .78rem/1 ui-sans-serif,system-ui,sans-serif;}
+
+/* hero */
+.hero{padding:34px 0 8px; position:relative;}
+.hero::before{content:""; position:absolute; inset:-40px -18px auto -18px; height:340px; background:radial-gradient(60% 60% at 30% 0%, rgba(224,150,90,.16), transparent 70%), radial-gradient(50% 50% at 90% 20%, rgba(127,176,143,.10), transparent 70%); pointer-events:none; z-index:-1;}
+.stagepills{display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:18px 0 4px;}
+.stagepill{background:var(--bg2); border:1px solid var(--line); border-radius:14px; padding:11px 12px;}
+.stagepill b{display:block; font-family:ui-serif,Georgia,serif; font-size:1.18rem; color:var(--ink);}
+.stagepill span{color:var(--muted); font-size:.72rem; text-transform:uppercase; letter-spacing:.06em;}
+
+/* cards */
+.card{background:var(--bg2); border:1px solid var(--line); border-radius:18px; padding:17px; margin:11px 0;}
+.card.tight{padding:13px 15px;}
+.banner{background:var(--bg3); border:1px solid var(--line2); color:var(--ink); border-radius:18px; padding:16px 18px; margin:12px 0;}
+.banner b{display:block; font-size:1.12rem; font-family:ui-serif,Georgia,serif;}
+.banner span{color:var(--muted); font-size:.88rem;}
+.row{display:grid; grid-template-columns:1fr auto; gap:10px; padding:9px 0; border-bottom:1px solid var(--line); font-size:.94rem;}
+.row:last-child{border-bottom:0;}
+.row span{color:var(--muted);}
+.row b{color:var(--ink); text-align:right;}
+.ok{color:var(--sage); font-weight:700;}
+.no{color:var(--warn); font-weight:700;}
+.tiny{color:var(--muted); font-size:.86rem;}
+.callout{border:1px dashed var(--line2); border-radius:14px; padding:13px 14px; margin:12px 0; background:rgba(224,150,90,.05); font-size:.9rem; color:var(--muted);}
+.callout b{color:var(--copper);}
+.source{color:var(--muted2); font-size:.76rem; margin:2px 0 10px;}
+
+/* dual lens */
+.dual{display:grid; grid-template-columns:1fr; gap:1px; border-radius:16px; overflow:hidden; border:1px solid var(--line); margin:14px 0; background:var(--line);}
+.dual-col{padding:15px 16px; background:var(--bg2);}
+.dual-invest{border-left:3px solid var(--copper);}
+.dual-plain{border-left:3px solid var(--sage);}
+.dual-tag{font-size:.66rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; margin:0 0 6px;}
+.dual-invest .dual-tag{color:var(--copper);}
+.dual-plain .dual-tag{color:var(--sage);}
+.dual p:last-child{margin-bottom:0;}
+@media(min-width:800px){.dual{grid-template-columns:1fr 1fr;}}
+
+/* kpis */
+.kpis{display:grid; grid-template-columns:1fr 1fr; gap:8px;}
+.kpi b{display:block; font-family:ui-serif,Georgia,serif; font-size:1.5rem;}
+.kpi span{color:var(--muted); font-size:.78rem;}
+.kpi .tag{display:inline-block; margin-top:6px; font-size:.68rem; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--copper);}
+
+/* tables */
+.tblwrap{overflow-x:auto; border:1px solid var(--line); border-radius:14px; margin:12px 0;}
+table{border-collapse:collapse; width:100%; min-width:520px; font-size:.87rem;}
+th,td{padding:9px 12px; text-align:left; border-bottom:1px solid var(--line); white-space:nowrap;}
+th{color:var(--copper); font-size:.7rem; text-transform:uppercase; letter-spacing:.06em; background:var(--bg3); position:sticky; top:0;}
+td{color:var(--ink2);}
+tr:last-child td{border-bottom:0;}
+td.wrap-cell,th.wrap-cell{white-space:normal; min-width:220px;}
+
+/* pills / buttons */
+.pills{display:flex; flex-wrap:wrap; gap:8px; margin:10px 0;}
+.pill{min-height:42px; border:1px solid var(--line2); border-radius:999px; padding:0 16px; font:700 14px/1 ui-sans-serif,system-ui,sans-serif; background:var(--bg3); color:var(--ink2); flex:1 1 auto;}
+.pill.on{background:var(--copper); color:var(--copper-ink); border-color:var(--copper);}
+.stat b{display:block; font-family:ui-serif,Georgia,serif; font-size:2.1rem; color:var(--ink);}
+.stat span{color:var(--muted); font-size:.92rem;}
+.bar{height:11px; background:var(--bg3); border-radius:99px; overflow:hidden;}
+.bar i{display:block; height:100%; background:var(--copper); transition:width .4s ease;}
+.split .line{display:grid; grid-template-columns:1fr auto; gap:8px; font-size:.92rem; margin-top:8px;}
+.split .fat{height:9px; border-radius:99px; background:var(--bg3); overflow:hidden; margin:3px 0 6px;}
+.split .fat i{display:block; height:100%;}
+
+/* chart */
+.chart-card svg{width:100%; height:auto; display:block;}
+.chart-legend{display:flex; gap:14px; flex-wrap:wrap; margin-top:6px; font-size:.78rem; color:var(--muted);}
+.chart-legend i{display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:5px; vertical-align:middle;}
+
+/* roadmap */
+.step{display:grid; grid-template-columns:22px 1fr; gap:11px; padding:13px 0; border-bottom:1px solid var(--line);}
+.step:last-child{border-bottom:0;}
+.dot{width:15px; height:15px; border-radius:50%; margin-top:5px; background:var(--line2);}
+.dot.done{background:var(--sage);}
+.dot.now{background:var(--copper); box-shadow:0 0 0 5px rgba(224,150,90,.18);}
+.substeps{margin:7px 0 0; padding:0; list-style:none; font-size:.85rem; color:var(--muted);}
+.substeps li{padding:3px 0 3px 14px; position:relative;}
+.substeps li::before{content:"—"; position:absolute; left:0; color:var(--line2);}
+
+/* accordion */
+details{background:var(--bg2); border:1px solid var(--line); border-radius:14px; padding:2px 15px; margin:8px 0;}
+summary{padding:14px 0; font-weight:700; cursor:pointer; list-style:none; min-height:44px; display:flex; align-items:center; gap:10px; color:var(--ink);}
+summary::-webkit-details-marker{display:none;}
+summary::after{content:"+"; margin-left:auto; color:var(--copper); font-size:1.1rem;}
+details[open] summary::after{content:"–";}
+details > *:not(summary){margin-bottom:12px;}
+
+/* risk cards */
+.risk{border-left:3px solid var(--danger-dim); background:var(--bg2); border:1px solid var(--line); border-radius:14px; padding:14px 15px; margin:9px 0;}
+.risk.med{border-left-color:var(--copper-dim);}
+.risk .rk{font-size:.66rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--muted2); margin-bottom:5px;}
+
+/* chips */
+.chipgrid{display:flex; flex-wrap:wrap; gap:7px; margin:10px 0;}
+.chipgrid .chip{font-size:.75rem; font-weight:700; padding:6px 11px; border-radius:99px; background:var(--bg3); border:1px solid var(--line2); color:var(--muted);}
+
+/* toc overlay */
+.toc-overlay{position:fixed; inset:0; z-index:70; background:rgba(8,7,6,.92); backdrop-filter:blur(6px); display:none; overflow-y:auto;}
+.toc-overlay.open{display:block;}
+.toc-inner{max-width:560px; margin:0 auto; padding:calc(20px + var(--top)) 20px 40px;}
+.toc-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:18px;}
+.toc-head h2{margin:0;}
+.toc-close{min-height:40px; min-width:40px; border-radius:10px; border:1px solid var(--line2); background:var(--bg3); color:var(--ink); font-size:1.1rem;}
+.toc-group{margin-bottom:20px;}
+.toc-group h4{color:var(--copper); font-size:.72rem; text-transform:uppercase; letter-spacing:.1em; margin:0 0 8px;}
+.toc-group a{display:block; padding:11px 4px; border-bottom:1px solid var(--line); color:var(--ink2); text-decoration:none; font-size:.98rem;}
+.toc-group a span{display:block; color:var(--muted2); font-size:.78rem; font-weight:400; margin-top:2px;}
+
+/* bottom nav */
+.nav{position:fixed; left:0; right:0; bottom:0; display:grid; grid-template-columns:repeat(6,1fr); background:rgba(13,12,10,.94); backdrop-filter:blur(10px); border-top:1px solid var(--line); padding:6px 2px calc(9px + var(--safe)); z-index:50;}
+.nav a{text-align:center; text-decoration:none; color:var(--muted); font-size:10.5px; font-weight:700; padding:9px 1px; min-height:44px; letter-spacing:.01em;}
+.nav a.tocopen{color:var(--copper);}
+
+.storynav{display:flex; gap:8px; margin-top:12px;}
+.storynav button{flex:1; min-height:46px; border:1px solid var(--line2); border-radius:12px; font:700 14px/1 ui-sans-serif,system-ui,sans-serif; background:var(--bg3); color:var(--ink2);}
+.storynav button.primary{background:var(--copper); color:var(--copper-ink); border-color:var(--copper);}
+.dots{display:flex; gap:6px; justify-content:center; margin-top:10px;}
+.dots i{width:6px; height:6px; border-radius:50%; background:var(--line2); display:inline-block;}
+.dots i.on{background:var(--copper); width:16px;}
+.chip{font-size:.7rem; font-weight:700; color:var(--copper); letter-spacing:.05em; text-transform:uppercase;}
+
+.grid2{display:grid; grid-template-columns:1fr; gap:10px;}
+@media(min-width:800px){.grid2{grid-template-columns:1fr 1fr;} body{font-size:17px;} .wrap{padding:0 24px 28px;}}
+footer.fine{padding:26px 0 6px; color:var(--muted2); font-size:.8rem;}
+@media print{
+  body{background:#fff; color:#111;} .nav,.topbar,.progress,.toc-overlay{display:none!important;}
+  .card,.dual-col,.banner,details,.risk{background:#fff!important; border-color:#ccc!important; color:#111!important;}
+}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<div class="topbar">
+  <span class="mark">Frontage</span>
+  <span class="stage">Pre-seed · pre-revenue</span>
+  <span class="spacer"></span>
+  <button class="tocbtn" id="tocOpenTop" type="button">Contents</button>
+</div>
+
+<div class="wrap">
+  <section class="hero" id="top">
+    <p class="kicker" style="margin-top:0">Confidential investor memorandum · prepared for family &amp; private investors only</p>
+    <h1>The honest case for investing in Frontage — before it has taken a single dollar.</h1>
+    <p class="lede">This is written twice, on purpose: once the way a professional early-stage investor would want it — thesis, market, unit economics, risk — and once in plain English, so nothing hides behind a term you're supposed to already know. Every number below is labeled <b>actual</b> or <b>modeled</b>. Nothing here is a promise of profit.</p>
+    <div class="stagepills" id="stagepills"></div>
+    <p class="tiny" style="margin-top:10px">Prepared by Shawn · Version 2 · Last updated <b id="dateNow">August 31, 2026</b> · Offer version <code>v1-1800-90d-2026-08-28</code></p>
+  </section>
+
+  <div class="banner" id="statusBanner"></div>
+
+  <!-- ================= MEDIA HUB ================= -->
+  <section class="section" id="media">
+    <p class="num">Start here too</p>
+    <p class="kicker">Listen, watch, or ask — pick your way in</p>
+    <h2>Everything on this page, in four formats.</h2>
+    <p>Reading top to bottom is only one option. The exact same memo also exists as a spoken conversation, a short video, a one-page visual summary, and a live AI you can ask any question — all built from this exact document, nothing else.</p>
+    <div class="grid2">
+      <a class="card" style="display:block;text-decoration:none" href="https://notebook.google.com/notebook/8c27cc18-ee81-48ed-919e-5743f9cd879f" target="_blank" rel="noopener">
+        <h3 style="margin-bottom:4px">🎧 Listen — 50 min</h3>
+        <p class="tiny" style="margin:0">Two AI hosts talk through the whole memo like a podcast — the kill test, the margin curve, the risks, all of it out loud. Tap "Audio Overview" once it opens.</p>
+      </a>
+      <a class="card" style="display:block;text-decoration:none" href="https://notebook.google.com/notebook/8c27cc18-ee81-48ed-919e-5743f9cd879f" target="_blank" rel="noopener">
+        <h3 style="margin-bottom:4px">🎬 Watch — 5 min</h3>
+        <p class="tiny" style="margin:0">A short video walkthrough of the idea, the money, and the plan. Tap "Video Overview" once it opens.</p>
+      </a>
+    </div>
+    <a class="card" style="display:block;text-decoration:none;margin-top:10px" href="https://notebook.google.com/notebook/8c27cc18-ee81-48ed-919e-5743f9cd879f" target="_blank" rel="noopener">
+      <h3 style="margin-bottom:4px">💬 Ask it anything</h3>
+      <p class="tiny" style="margin:0">Same link — type any question in the chat box, like "how does the margin curve work?" or "what happens if no plumber signs?" It answers using only this memo.</p>
+    </a>
+    <div class="card chart-card" style="margin-top:10px">
+      <h3 style="margin-bottom:8px">📊 The one-page visual summary</h3>
+      <img src="assets/infographic.png" alt="Frontage infographic: the thesis, the TAM/SAM/SOM market funnel, the margin curve, and the financial projections table" style="width:100%;border-radius:12px;display:block" loading="lazy" />
+    </div>
+    <div class="callout" style="margin-top:10px"><b>One link covers all of it.</b> The audio, video, infographic, data tables, and live chat all live in the same Gemini Notebook — both buttons above go to the same place. Google may ask you to sign in with any Google account first; that's normal.</div>
+  </section>
+
+  <!-- ================= THESIS ================= -->
+  <section class="section" id="thesis">
+    <p class="num">01 · Start here</p>
+    <p class="kicker">The investment thesis</p>
+    <h2>What you'd actually be backing.</h2>
+    <div class="dual">
+      <div class="dual-col dual-invest"><p class="dual-tag">Investor terms</p>
+        <p>Frontage is a bounded, single-SKU local-demand-operations service for licensed, single-location home-service businesses. Beachhead: Las Vegas (Clark County) plumbing contractors. The offer is a <b>$1,800/month, 90-day-minimum retainer</b> for Google Business Profile, review, and Google Ads/LSA management — delivered on <b>customer-owned</b> marketing accounts, funded by the customer's own ad budget under a written cap. Frontage never touches ad spend, never guarantees outcomes, and never performs licensed trade work, which keeps its regulatory, liability, and capital profile closer to a managed-services business than a home-service operator.</p>
+        <p>At 7 concurrent shops, modeled after-tax operator take-home is <b>≈$6,740/month</b> on <b>≈$12,600/month</b> gross retainer revenue. Because central overhead is a <b>fixed</b> $500/month rather than a per-shop cost, margin expands as shop count grows — real operating leverage, shown in Section 07.</p>
+        <p style="margin:0">This is not "demand is proven." It is: a correctly bounded, low-capital, high-margin services business, in a market that has not been proven to reject the offer, with a named falsification test written <i>before</i> the first dollar is asked for.</p>
+      </div>
+      <div class="dual-col dual-plain"><p class="dual-tag">Plain English</p>
+        <p>Shawn wants to build a small business that helps one plumbing company at a time look good on Google — their hours, photos, review replies, and running their Google ads — without ever touching their money or promising things he can't control.</p>
+        <p>Every plumber pays <b>$1,800 a month for at least 3 months</b>. Right now, <b>zero</b> plumbers have been asked. This whole page is honest about that. It explains exactly how the business would work, why we think plumbers might say yes, why this beat every other idea we looked at, exactly what the math says, and what could go wrong — before you'd ever see a dollar.</p>
+      </div>
+    </div>
+    <div class="callout"><b>Why write it this way.</b> The first version of this memo was too thin to make a real decision from. This version is long because the questions you asked deserve real answers, not a shorter page.</div>
+  </section>
+
+  <!-- ================= HOW IT WORKS ================= -->
+  <section class="section" id="model">
+    <p class="num">02 · Start here</p>
+    <p class="kicker">How Frontage actually works</p>
+    <h2>Five things it does. Five things it will never do.</h2>
+    <p>A licensed plumbing owner already has a Google Business Profile and, usually, a Google Ads or Local Services Ads account. Those pages are how homeowners find them when they search "plumber near me." Most owners are under a sink, not updating photos and replying to reviews. Frontage is hired to run <i>only</i> that public-facing side — nothing else.</p>
+    <div class="grid2">
+      <div class="card">
+        <h3 class="ok">What Frontage does</h3>
+        <ul class="substeps" style="margin-top:2px">
+          <li>Keeps the Google Business Profile current: hours, photos, posts, categories — inside rules the owner approves</li>
+          <li>Drafts review replies matched to the owner's tone; anything sensitive stays in an approval queue, never auto-published</li>
+          <li>Runs Google Ads / Local Services Ads inside a written monthly cap the <b>owner sets and funds</b></li>
+          <li>Routes incoming calls/requests to the shop's own phone or scheduler</li>
+          <li>Sends a weekly written report of what changed and what's waiting on approval</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 class="no">What Frontage will never do</h3>
+        <ul class="substeps" style="margin-top:2px">
+          <li>Quote a job, diagnose a leak, or estimate a repair</li>
+          <li>Dispatch a truck or book an appointment without the owner's approval</li>
+          <li>Promise a lead count, a ranking, or a job count</li>
+          <li>Hold, own, or float the owner's ad spend — it is always their money, always capped in writing</li>
+          <li>Take over the owner's Google account — they keep it, always, with no exceptions</li>
+        </ul>
+      </div>
+    </div>
+    <div class="dual">
+      <div class="dual-col dual-invest"><p class="dual-tag">Investor terms</p>
+        <p>Delivery model targets <b>~65% automation</b> of recurring desk workflows at launch (SOP-driven draft generation, ad-change proposals, weekly compiled reporting, automatic pause/exception detection). Human review is reserved for the first sale, ambiguous exceptions, and any action carrying binding or reputational risk to the shop. This is a services business with a software-assisted operating system — not a software product wrapped in services. That distinction matters for how it's priced, regulated, and scaled.</p>
+      </div>
+      <div class="dual-col dual-plain"><p class="dual-tag">Plain English</p>
+        <p>Software handles the repetitive, boring two-thirds of the work. A person still makes the first sale, deals with anything weird or risky, and signs off before anything goes out that could get a plumber in trouble. Shawn's job is to read a weekly report and hold a kill switch — not to be the front desk every single day.</p>
+      </div>
+    </div>
+    <p class="tiny">The full control system that makes "not Shawn every day" actually safe — approval gates, a 72-hour access clock, and eight named failure routes — is in Section 11, Operations &amp; Controls.</p>
+  </section>
+
+  <!-- ================= PROBLEM ================= -->
+  <section class="section" id="problem">
+    <p class="num">03</p>
+    <p class="kicker">The problem being sold</p>
+    <h2>Why a plumber would plausibly pay for this.</h2>
+    <div class="dual">
+      <div class="dual-col dual-invest"><p class="dual-tag">Investor terms</p>
+        <p>Published 2026 contractor-marketing benchmarks put disciplined marketing spend for growth-stage plumbing operators at <b>7–12% of gross revenue</b>, with plumbing-specific paid search averaging <b>~$10.49 CPC / ~$129 cost-per-lead</b>, and a typical fully-loaded cost to acquire one paying homeowner customer of <b>$296–$350</b>. The category already validates willingness-to-pay: independent local-SEO/GBP agencies charge <b>$800–$5,000/month</b> for materially the same scope Frontage sells, with <b>$1,500–$4,000/month</b> the most commonly published "boutique" tier for a single location. The open question is not "does anyone pay for this kind of work" — the category answers that. The open question is "will a <i>specific</i> Clark County shop pay <i>Frontage</i>," which is exactly what the 20-shop, 14-day test in Section 09 is built to answer honestly.</p>
+      </div>
+      <div class="dual-col dual-plain"><p class="dual-tag">Plain English</p>
+        <p>Plumbers already know Google is basically the whole game for getting the phone to ring. Other companies already charge $800 to $5,000 a month to do exactly this kind of work, all over the country. We're not guessing that people pay for this — they already do. What we don't know is whether the real plumbing shops on our list will pay <i>us</i>. That's the actual unknown, and we wrote down exactly how and when we'll find out — and when we'll admit it isn't working.</p>
+      </div>
+    </div>
+    <div class="source">Sources: 2026 contractor-marketing benchmark aggregations (SearchLight Digital, Foundry CRO, Digital Harvest, Elev8 Operations, PULSE); LocaliQ 2025 paid-search cost data; multiple 2026 local-SEO/GBP agency published pricing pages. Full list available on request — not reproduced here to keep this readable on a phone.</div>
+
+    <h3 style="margin-top:18px">A real risk this business is built to avoid</h3>
+    <p>One well-documented pattern in this industry: an agency sets up or takes over a client's Google Business Profile under the <i>agency's</i> login, and the shop owner effectively loses control of their own listing — sometimes for months, sometimes only recoverable through Google's formal dispute process. It's common enough that Google publishes an official "request ownership" recovery flow for exactly this scenario. Frontage's answer is structural, not a promise: <b>the owner's account, always, no exceptions</b> — frozen into the concession rules in Section 09 so it can never be quietly negotiated away, even under pressure to close a deal.</p>
+
+    <h3 style="margin-top:18px">What our own look at the ground found</h3>
+    <p>Before writing a word to anyone, the 20 licensed Clark County plumbing shops on the initial contact list were each checked against their own public pages for three specific signs of an existing rival: (1) already paying a local-SEO/GBP agency, (2) already buying leads from a national marketplace like Angi or HomeAdvisor's paid tier, or (3) already employing a named in-house office/dispatch role. Result, dated and sourced:</p>
+    <div class="tblwrap"><table>
+      <tr><th>Signal found on the shop's own public page</th><th>Shops</th><th>What that means</th></tr>
+      <tr><td>Already paying a local-SEO / GBP agency</td><td>0 of 20</td><td>No confirmed incumbent specialist</td></tr>
+      <tr><td>Already buying paid leads (Angi Pro / HomeAdvisor Super Service)</td><td>0 of 20</td><td>No confirmed incumbent marketplace</td></tr>
+      <tr><td>Named in-house office / dispatch role</td><td>3 of 20</td><td>Some in-house capacity — not proof they run GBP/ads themselves</td></tr>
+      <tr><td>None of the three signals found</td><td>11 of 20</td><td>Open, or simply not stated publicly</td></tr>
+      <tr><td>Page unverifiable / no first-party site found</td><td>6 of 20</td><td>Left honestly unresolved, not assumed either way</td></tr>
+    </table></div>
+    <div class="callout"><b>What this is not.</b> This is whitespace evidence — the absence of a visible, locked-in specialist — not proof that anyone wants to buy, or would pay Frontage specifically. Zero shops have been contacted. This does not raise the demand confidence score on its own, and it isn't allowed to.</div>
+  </section>
+
+  <!-- ================= MARKET ================= -->
+  <section class="section" id="market">
+    <p class="num">04</p>
+    <p class="kicker">Market opportunity, sized honestly</p>
+    <h2>TAM, SAM, SOM — with the guessing shown, not hidden.</h2>
+    <div class="tblwrap"><table>
+      <tr><th>Layer</th><th>Estimate</th><th>How it was built</th></tr>
+      <tr><td><b>TAM</b> — Nevada, all licensed plumbing contractors</td><td>≈1,035 active licenses</td><td>Public Nevada State Contractors Board (NSCB) records, third-party aggregated count</td></tr>
+      <tr><td><b>SAM</b> — Clark County (Las Vegas metro) estimate</td><td>≈700–780 shops</td><td>Population-weighted extrapolation only — Clark County holds roughly three-quarters of Nevada's population. <b>Not</b> a published county figure.</td></tr>
+      <tr><td><b>SOM</b> — named, license-verified beachhead list</td><td>20 shops, 0 contacted</td><td>Pulled directly from NSCB's free public registry, C-1 / C-1D class, Clark County</td></tr>
+      <tr><td><b>Floor target</b> — shops needed to clear Shawn's $6,000/mo after-tax floor</td><td>7 shops</td><td>≈0.9% of the estimated county pool, or 35% of the 20 named shops — not 100% market capture</td></tr>
+    </table></div>
+    <div class="callout"><b>Read this carefully.</b> The SAM figure is <b>arithmetic on a population ratio</b>, not an NSCB county pull. An actual county-filtered report exists to purchase directly from NSCB for $100–$200 and has not been bought yet — that is the obvious next research step, disclosed here instead of skipped. Nothing on this page is a demand forecast. It is a sizing method using public license data and published industry pricing. The only thing that turns a model into a fact is a signed retainer and a cleared payment.</div>
+    <div class="dual">
+      <div class="dual-col dual-invest"><p class="dual-tag">Investor terms</p>
+        <p>Frontage is deliberately <b>not</b> pitched on TAM size. The bounded first market (Clark County plumbing) already contains roughly 35–40x the shop count needed to clear the founder's income floor, which means the constraint is conversion discipline and delivery quality, not market ceiling. Geographic or vertical expansion (other counties, other trades, other metros) is explicitly deferred — treated in internal planning as a separate, founder-gated "second envelope," never assumed into this model.</p>
+      </div>
+      <div class="dual-col dual-plain"><p class="dual-tag">Plain English</p>
+        <p>There are roughly 700–780 licensed plumbing companies just in the Las Vegas area, by our best estimate from public records. We only need about 7 of them paying to hit Shawn's income goal. We are not promising the other 700 will ever say yes — we're saying the room in the market isn't the problem right now. Whether real shops actually sign is the problem, and that's still unproven.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= COMPETITION ================= -->
+  <section class="section" id="competition">
+    <p class="num">05</p>
+    <p class="kicker">Competitive landscape &amp; why this is structured to win</p>
+    <h2>Where Frontage sits on price — and what actually makes it different.</h2>
+    <div class="tblwrap"><table>
+      <tr><th>Option a plumber has today</th><th>Typical cost</th><th>Structure</th></tr>
+      <tr><td>Do it themselves (DIY tools)</td><td>$0–$300/mo</td><td>Owner's own time; usually the first thing to get neglected</td></tr>
+      <tr><td><b>Frontage</b></td><td><b>$1,800/mo flat</b></td><td>Fixed retainer, 90-day minimum, owner keeps every account</td></tr>
+      <tr><td>Boutique local-SEO / GBP agency</td><td>$1,500–$5,000/mo</td><td>2–4 person human team; account ownership terms vary by agency</td></tr>
+      <tr><td>Mid-tier / multi-location agency</td><td>$5,000–$12,000/mo</td><td>Built for multi-truck or multi-location operators, oversized for one shop</td></tr>
+      <tr><td>National paid-lead marketplace (Angi Pro / HomeAdvisor)</td><td>~$129/lead, variable</td><td>Cost scales with volume — less predictable, no owned channel built</td></tr>
+    </table></div>
+    <p class="tiny">Frontage prices at the low-to-middle of the going professional rate for this exact scope of work, while offering a structural guarantee most agencies don't: the owner never loses control of their own account.</p>
+    <h3 style="margin-top:16px">Five real differentiators</h3>
+    <div class="chipgrid">
+      <span class="chip">Owner keeps 100% account control</span>
+      <span class="chip">Never floats or touches ad spend</span>
+      <span class="chip">No results guarantee, on purpose</span>
+      <span class="chip">Automation-driven cost structure</span>
+      <span class="chip">Zero-cost public-registry sourcing</span>
+    </div>
+    <div class="dual">
+      <div class="dual-col dual-invest"><p class="dual-tag">Investor terms</p>
+        <p><b>Ownership-preserving structure</b> removes the single most common trust objection in this category (agency-held GBP) and is frozen into the concession ceiling — it can never be traded away to close a deal. <b>No ad-spend float</b> keeps Frontage's own balance sheet risk near zero and avoids the "we need your card on file" objection that kills trust with a first-time buyer. <b>An explicit no-guarantee policy</b> sounds like a weakness but functions as a sales differentiator with owners who have been burned by "we'll get you 12 jobs" promises from prior vendors. <b>Automation-first delivery</b> holds the modeled variable cost at ~29% of revenue, letting Frontage price at the low end of the going rate while keeping healthy contribution margin (detailed in Section 07). <b>Zero-cost lead sourcing</b> via NSCB's own free public registry means customer acquisition cost for the beachhead list is not inflated by a paid data vendor.</p>
+      </div>
+      <div class="dual-col dual-plain"><p class="dual-tag">Plain English</p>
+        <p>We never take over your Google account, we never touch your ad money, and we don't promise a number of jobs we can't control. Other companies sometimes do all three of those, and it's the reason plumbers get burned. We built the rules so none of that can happen here — not as a sales line, but as a rule that can't be changed just to win a sale.</p>
+      </div>
+    </div>
+    <details>
+      <summary>See how the competitor research was done (method, not a customer list)</summary>
+      <p>Each of the 20 licensed shops was checked against a strict, three-class rubric using only dated, first-party public pages (shop websites, Better Business Bureau profiles, and similar) — never inferred from directories, review counts, or guesses. A page had to explicitly state one of the three classes to be counted; "no class stated" was recorded honestly as its own outcome rather than folded into either a positive or negative reading. Individual business names and license numbers are kept in the internal planning file rather than reproduced here, since this document may be shared and those are independent third parties' public records, not our customers.</p>
+    </details>
+  </section>
+
+  <!-- ================= PROCESS ================= -->
+  <section class="section" id="process">
+    <p class="num">06</p>
+    <p class="kicker">Why this idea, and not one of the others</p>
+    <h2>This wasn't the first idea. It's the one that survived.</h2>
+    <p>Before locking on plumbing, Shawn ran an unusual process: five independent AI research systems (built on five different underlying models) each had to <b>independently</b> score a candidate business at <b>90 or higher out of 100</b> on <i>every one</i> of five required tests — is the offer bounded, can it run without Shawn as the daily desk, will anyone plausibly buy, can we find buyers, and does the money work — before it was even allowed to become "the plan." That bar had to be cleared by <b>all five</b>, independently, not averaged. It took over 80 rounds of debate and rewriting to get there.</p>
+    <div class="tblwrap"><table>
+      <tr><th>Research system</th><th>Bounded offer</th><th>Runs without founder</th><th>Demand</th><th>Customer acquisition</th><th>Unit economics</th></tr>
+      <tr><td>Claude</td><td>91</td><td>90</td><td>90</td><td>90</td><td>90</td></tr>
+      <tr><td>GPT</td><td>92</td><td>90</td><td>90</td><td>90</td><td>90</td></tr>
+      <tr><td>Gemini</td><td>93</td><td>90</td><td>90</td><td>90</td><td>90</td></tr>
+      <tr><td>Grok</td><td>91</td><td>90</td><td>90</td><td>90</td><td>90</td></tr>
+      <tr><td>Kimi</td><td>93</td><td>90</td><td>90</td><td>90</td><td>90</td></tr>
+    </table></div>
+    <div class="callout"><b>What a 90 means and doesn't mean.</b> A 90 is defined, in the planning record, as "we would run this plan" — not "customers already exist." It is a planning-confidence score, not a sales result. The demand score specifically only reached 90 after the group agreed it meant "the demand test is properly specified," with the honest number staying at zero live customers. A 95+ score is explicitly reserved for signed paper and deposited cash — neither exists yet.</div>
+    <h3 style="margin-top:18px">What got killed to get here</h3>
+    <div class="tblwrap"><table>
+      <tr><th class="wrap-cell">Idea</th><th>Stage</th><th class="wrap-cell">Why it was rejected</th></tr>
+      <tr><td class="wrap-cell">Underground storage-tank compliance software</td><td>Early rounds</td><td class="wrap-cell">Never cleared the planning-confidence bar</td></tr>
+      <tr><td class="wrap-cell">HVAC inspection packs</td><td>Early rounds</td><td class="wrap-cell">Never cleared the bar</td></tr>
+      <tr><td class="wrap-cell">Grease-trap compliance desk</td><td>Early rounds</td><td class="wrap-cell">Never cleared the bar</td></tr>
+      <tr><td class="wrap-cell">Dental / freight / payment-app overlays</td><td>Early rounds</td><td class="wrap-cell">Never cleared the bar</td></tr>
+      <tr><td class="wrap-cell">Amazon FBA reimbursement recovery desk</td><td>Backup candidate</td><td class="wrap-cell">Fee is a 25% contingent cut; Amazon API access risk, eligibility disputes, and slow cash made "get a first dollar quickly" much harder</td></tr>
+      <tr><td class="wrap-cell">Shopify chargeback-recovery desk</td><td>Backup candidate</td><td class="wrap-cell">Same shape: evidence disputes, processor dependency, contingent cash, more legal exposure</td></tr>
+      <tr><td class="wrap-cell">Pallet / warehouse recycling desk</td><td>Side candidate</td><td class="wrap-cell">Thrown out for unresolved planning holes — no named recycling partner, unknown local lot density, undefined exception labor</td></tr>
+      <tr><td class="wrap-cell">Garage-door local demand desk</td><td>Alternative trade</td><td class="wrap-cell">One research seat preferred it; the group chose plumbing because its desk model never requires Frontage to judge whether a call is an emergency and dispatch a truck — a line other trades don't respect as cleanly</td></tr>
+    </table></div>
+    <p class="tiny">Why Las Vegas specifically: Shawn already lives there, Clark County's licensed-contractor list is free and public (no paid data vendor needed), and the whole idea fits inside the $5,000 cap without forming a special legal entity first just to run a test.</p>
+  </section>
+
+  <!-- ================= ECONOMICS ================= -->
+  <section class="section" id="economics">
+    <p class="num">07</p>
+    <p class="kicker">Unit economics</p>
+    <h2>Why the margin gets better as it grows, not worse.</h2>
+    <div class="dual">
+      <div class="dual-col dual-invest"><p class="dual-tag">Investor terms</p>
+        <p>Per-shop revenue is $1,800/month. Modeled variable cost is $525/shop (~29% of revenue — a labor-equivalent envelope, not a vendor invoice). That leaves a <b>~71% gross margin per shop</b>. Central overhead is <b>fixed at $500/month total</b>, regardless of shop count — not a per-shop allocation. Because it's fixed, it dilutes as volume grows, which is textbook operating leverage: take-home margin rises from <b>34% at 1 shop to ~54% at 7 shops to ~56% asymptotically</b> as shop count increases further.</p>
+      </div>
+      <div class="dual-col dual-plain"><p class="dual-tag">Plain English</p>
+        <p>Each shop pays $1,800. It costs about $525 to actually do the work for that one shop. The $500 "keep the whole desk running" cost stays the same $500 whether there's 1 shop or 20 — it doesn't multiply. So the more shops there are, the smaller a slice that flat $500 takes out of the pie, and the bigger the take-home slice gets, as a percentage. That's the real reason more shops is genuinely better, not just "more revenue."</p>
+      </div>
+    </div>
+    <div class="card chart-card">
+      <h3>Take-home margin as shop count grows</h3>
+      <svg viewBox="0 0 320 150" id="marginChart"></svg>
+      <div class="chart-legend"><span><i style="background:var(--copper)"></i>Take-home margin %</span><span><i style="background:var(--sage)"></i>Selected shop count</span></div>
+      <p class="tiny" style="margin-top:8px">Modeled arithmetic from the frozen paper formula. Not measured, not a forecast.</p>
+    </div>
+    <h3 style="margin-top:18px">Tap a shop count</h3>
+    <p class="tiny">Left bars are paper math. Actual today, at every shop count, is still $0 — zero shops are paying.</p>
+    <div class="pills" id="shopBtns"></div>
+    <div class="card stat">
+      <span>Modeled monthly take-home after the 20% tax set-aside</span>
+      <b id="take">$6,740</b>
+      <span id="takeNote"></span>
+      <div class="bar" style="margin-top:12px"><i id="bar"></i></div>
+      <p class="tiny" id="marginNote" style="margin:12px 0 0"></p>
+    </div>
+    <div class="card">
+      <h3>Where one month's shop fees would go</h3>
+      <div class="split" id="split"></div>
+    </div>
+    <div class="callout"><b>What could make this wrong.</b> The $525 figure is built from an assumed $23.02/hour labor-equivalent rate applied to an estimated 316 minutes/week of routine work per shop — not a wage anyone is paid or a vendor quote. Real liability insurance is entirely missing from every public source checked (NAIC, ISO, Nevada Division of Insurance) for a one-person home-service operator — Shop #7 specifically is blocked on getting a real quote, because that's the shop that's supposed to clear the $6,000 floor. If either number moves against the model, every margin figure above shrinks.</div>
+  </section>
+
+  <!-- ================= PROJECTIONS ================= -->
+  <section class="section" id="projections">
+    <p class="num">08</p>
+    <p class="kicker">Financial scenarios — paper only</p>
+    <h2>The same formula, at different shop counts.</h2>
+    <div class="tblwrap"><table>
+      <tr><th>Shops</th><th>Monthly revenue</th><th>Monthly take-home</th><th>Margin</th><th>Annualized take-home</th></tr>
+      <tr><td>0 (today, actual)</td><td>$0</td><td>$0</td><td>—</td><td>$0</td></tr>
+      <tr><td>1</td><td>$1,800</td><td>$620</td><td>34.4%</td><td>$7,440</td></tr>
+      <tr><td>3</td><td>$5,400</td><td>$2,660</td><td>49.3%</td><td>$31,920</td></tr>
+      <tr><td>6 (still short of floor)</td><td>$10,800</td><td>$5,720</td><td>53.0%</td><td>$68,640</td></tr>
+      <tr><td><b>7 (clears the floor)</b></td><td><b>$12,600</b></td><td><b>$6,740</b></td><td><b>53.5%</b></td><td><b>$80,880</b></td></tr>
+      <tr><td>10</td><td>$18,000</td><td>$9,800</td><td>54.4%</td><td>$117,600</td></tr>
+      <tr><td>15 (extra math)</td><td>$27,000</td><td>$14,900</td><td>55.2%</td><td>$178,800</td></tr>
+      <tr><td>20 (extra math)</td><td>$36,000</td><td>$20,000</td><td>55.6%</td><td>$240,000</td></tr>
+    </table></div>
+    <div class="callout">Rows past 7 shops are arithmetic extensions of the same formula, shown to illustrate the margin curve — <b>not</b> a forecast, a contract, or a claim that the business can staff 15–20 shops on today's operating model. See the capacity risk in Section 12. Actual figures today, at every row, are $0.</div>
+  </section>
+
+  <!-- ================= GO TO MARKET ================= -->
+  <section class="section" id="gtm">
+    <p class="num">09</p>
+    <p class="kicker">Go-to-market &amp; sales discipline</p>
+    <h2>Exactly how the first yes would happen — and how we'd know if it isn't working.</h2>
+    <div class="card">
+      <div class="row"><span>Beachhead list</span><b>20 named, license-verified Clark County shops</b></div>
+      <div class="row"><span>Source</span><b>Nevada State Contractors Board (free, public)</b></div>
+      <div class="row"><span>Contact status</span><b class="no">0 of 20 contacted</b></div>
+      <div class="row"><span>Warm vs. cold</span><b>All 20 frozen as cold — no prior relationship</b></div>
+    </div>
+    <h3 style="margin-top:16px">The exact ask (frozen, no discounting)</h3>
+    <p style="font-style:italic; color:var(--ink2)">"We run a local demand desk for one plumbing shop at a time. You keep your Google Business Profile and Google Ads accounts. You fund ads under a written monthly cap you set. We do not guarantee jobs. We do not book jobs without your approval. The retainer is <b>$1,800 per month for 90 days</b>. Yes or no on those terms."</p>
+    <h3 style="margin-top:16px">Binary close — no mushy middle states</h3>
+    <p>Every priced ask ends in exactly one of two states: <b>signed</b> on those exact terms, or <b>declined</b>, logged with a specific reason (price, ownership terms, wants FAB to float ad spend, wants a guarantee, wants unconstrained booking, no authority to sign, no response, other). "Interested," "following up," "thinking about it," and "unsigned template on file" are explicitly banned from ever being logged as progress. Most small services businesses quietly die in that mushy middle — this one is written so it can't hide there.</p>
+    <h3 style="margin-top:16px">The kill test — the falsification rule with teeth</h3>
+    <div class="card">
+      <div class="row"><span>Named cold contacts</span><b>20</b></div>
+      <div class="row"><span>Window after real outreach starts</span><b>14 calendar days</b></div>
+      <div class="row"><span>Signed if demand is weaker than hoped</span><b>0</b></div>
+      <div class="row"><span>Result if that happens</span><b class="no">Demand confidence drops — plan gets re-examined, not defended</b></div>
+    </div>
+    <h3 style="margin-top:16px">What can never be conceded to get a signature</h3>
+    <div class="chipgrid">
+      <span class="chip">Price below $1,800</span>
+      <span class="chip">Term shorter than 90 days</span>
+      <span class="chip">Any results guarantee</span>
+      <span class="chip">Frontage floating ad spend</span>
+      <span class="chip">Frontage owning the Google account</span>
+      <span class="chip">Unapproved auto-booking</span>
+    </div>
+    <p class="tiny">Allowed flexibility: scheduling the access-grant window, the owner's chosen (owner-funded) ad cap amount, and pause/cancel language — none of which touch price, term, or ownership.</p>
+  </section>
+
+  <!-- ================= OPERATIONS ================= -->
+  <section class="section" id="ops">
+    <p class="num">10</p>
+    <p class="kicker">Operations, automation &amp; the control system</p>
+    <h2>The part most solo-founder service businesses never write down.</h2>
+    <p>No shop goes live just because someone said yes on a phone call. Every location has to pass six named, checkable facts before any work, billing, or account access happens:</p>
+    <div class="tblwrap"><table>
+      <tr><th>Required fact</th><th>What happens if it's missing</th></tr>
+      <tr><td>Authority — real owner or documented binder signed</td><td>No commercial progress at all</td></tr>
+      <tr><td>Frozen terms accepted exactly as written</td><td>No substituted terms allowed</td></tr>
+      <tr><td>Payment actually cleared (not an unpaid link)</td><td>Stays paused, no access clock starts</td></tr>
+      <tr><td>Usable access to the owner's own accounts</td><td>Stays paused — no workaround account, ever</td></tr>
+      <tr><td>Written, owner-funded media cap</td><td>No ad-facing task enters the queue</td></tr>
+      <tr><td>Named approval / pause / escalation contacts</td><td>Cannot go live without someone accountable</td></tr>
+    </table></div>
+    <p>All six must be true within <b>72 hours</b> of a signature, or the location automatically pauses — no manual override except a logged, named exception with an expiration date. Nothing quietly "stays in progress" forever.</p>
+    <h3 style="margin-top:16px">When something goes wrong — eight named routes, none of them "call Shawn"</h3>
+    <div class="tblwrap"><table>
+      <tr><th class="wrap-cell">Failure type</th><th>Response window</th><th>Who owns it</th></tr>
+      <tr><td class="wrap-cell">Wrong output / unauthorized change</td><td>4 hrs to customer, 24 hrs to resolve</td><td>Desk operations</td></tr>
+      <tr><td class="wrap-cell">Missed deadline</td><td>8–24 hrs</td><td>Access operations / Desk</td></tr>
+      <tr><td class="wrap-cell">Access lost</td><td>2 hrs to customer</td><td>Access operations</td></tr>
+      <tr><td class="wrap-cell">Ad-cap risk</td><td>4 hrs to confirm stop</td><td>Media operations</td></tr>
+      <tr><td class="wrap-cell">Refund / chargeback</td><td>8–24 hrs</td><td>Billing operations</td></tr>
+      <tr><td class="wrap-cell">Google/portal change</td><td>8–48 hrs</td><td>Media / Access operations</td></tr>
+      <tr><td class="wrap-cell">Data incident</td><td>1 hr</td><td>Incident operations</td></tr>
+      <tr><td class="wrap-cell">Signer authority dispute</td><td>24 hrs then decline</td><td>Desk operations</td></tr>
+    </table></div>
+    <p class="tiny">"Operations" cells are named roles and rules, not hires. Shawn's designed involvement is a weekly written health report and a global kill switch — zero planned daily desk minutes.</p>
+  </section>
+
+  <!-- ================= RISKS ================= -->
+  <section class="section" id="risks">
+    <p class="num">11</p>
+    <p class="kicker">Risk factors — the honest register</p>
+    <h2>What can actually go wrong, in the order it matters.</h2>
+    <div id="riskList"></div>
+  </section>
+
+  <!-- ================= USE OF FUNDS ================= -->
+  <section class="section" id="funds">
+    <p class="num">12</p>
+    <p class="kicker">Use of the $5,000 startup cap</p>
+    <h2>A hard ceiling, spent on almost nothing yet.</h2>
+    <div class="card">
+      <div class="row"><span>Hard cap</span><b>$5,000</b></div>
+      <div class="row"><span>Spent to date</span><b class="ok">$0</b></div>
+      <div class="row"><span>Cash cost to acquire a customer, before any payment clears</span><b>$0 by design</b></div>
+    </div>
+    <div class="tblwrap"><table>
+      <tr><th>Category</th><th>Bound</th><th>Status</th></tr>
+      <tr><td>Legal entity / DBA filing</td><td>Inside $5,000 cap</td><td>Not started — needs Shawn's go-ahead</td></tr>
+      <tr><td>Liability insurance premium</td><td>Inside cap, amount unknown</td><td>Blocked — no quote exists anywhere yet</td></tr>
+      <tr><td>Domain + minimal hosting</td><td>Inside $5,000 cap</td><td>Not started</td></tr>
+      <tr><td>Customer ad spend</td><td>$0 — never Frontage's money</td><td>Always customer-funded, always capped in writing</td></tr>
+      <tr><td>Paid lead lists / scraping tools</td><td>$0 — not used</td><td>Free public NSCB registry used instead</td></tr>
+      <tr><td>Product app / hosted backend</td><td>$0 — banned pre-revenue</td><td>Explicitly deferred until a paying shop justifies it</td></tr>
+    </table></div>
+    <div class="callout"><b>Honest gap.</b> A line-by-line dollar budget inside the $5,000 has not been drafted yet. That's disclosed here on purpose instead of inventing numbers to fill the box.</div>
+  </section>
+
+  <!-- ================= GOVERNANCE ================= -->
+  <section class="section" id="governance">
+    <p class="num">13</p>
+    <p class="kicker">What you receive as investor</p>
+    <h2>Shawn operates. You should still see everything a serious investor sees.</h2>
+    <div class="card">
+      <div class="row"><span>Role</span><b>Investor · Shawn operates</b></div>
+      <div class="row"><span>Written ownership %</span><b class="no">Not written yet</b></div>
+      <div class="row"><span>Your cash in, if any</span><b class="no">Not written yet</b></div>
+      <div class="row"><span>Cash paid back to you so far</span><b>$0</b></div>
+      <div class="row"><span>Business revenue so far</span><b>$0</b></div>
+      <div class="row"><span>This report</span><b class="ok">You have it</b></div>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <h3 class="ok">You should be getting</h3>
+        <p>A dated scorecard. Milestones hit vs. still ahead. Real cash in and out, kept in two separate ledgers so nothing gets blended. Paper projections clearly labeled as paper. The full risk list. A new copy the moment anything material moves.</p>
+      </div>
+      <div class="card">
+        <h3 class="no">You should never be told</h3>
+        <p>Made-up profit. A fake ownership split. "We already make $6,000." Templated internet numbers copied to the penny across unrelated businesses — that pattern was flagged and rejected as a red flag, not adopted here.</p>
+      </div>
+    </div>
+    <div class="callout"><b>The single most important open item.</b> Your ownership percentage, your check size, and how cash would be split are not written yet — on purpose, because the paper isn't done, not because the answer is $0. Before any money moves, you should have: (1) a written ownership % and check size, (2) a simple agreement either of you can point to, (3) this same dated scorecard kept current, and (4) one link that always shows the current version.</div>
+  </section>
+
+  <!-- ================= ROADMAP ================= -->
+  <section class="section" id="roadmap">
+    <p class="num">14</p>
+    <p class="kicker">Milestones · done, now, next, later</p>
+    <h2>The road, and exactly where we are on it today.</h2>
+    <div class="kpis" id="kpis" style="margin-bottom:14px"></div>
+    <div class="card" id="steps"></div>
+  </section>
+
+  <!-- ================= STORY ================= -->
+  <section class="section" id="story">
+    <p class="num">15</p>
+    <p class="kicker">The business in five taps</p>
+    <h2>If you only read one section, read this one.</h2>
+    <div class="card">
+      <p class="chip" id="storyChip">1 of 5</p>
+      <h3 id="storyTitle"></h3>
+      <p id="storyBody"></p>
+      <div class="dots" id="storyDots"></div>
+      <div class="storynav">
+        <button type="button" id="prevStory">Back</button>
+        <button type="button" class="primary" id="nextStory">Next</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= GLOSSARY ================= -->
+  <section class="section" id="glossary">
+    <p class="num">16 · Reference</p>
+    <p class="kicker">Glossary</p>
+    <h2>Investor words, translated once so we don't repeat it everywhere.</h2>
+    <div id="glossaryList"></div>
+  </section>
+
+  <!-- ================= FAQ ================= -->
+  <section class="section" id="faq">
+    <p class="num">17 · Reference</p>
+    <p class="kicker">Questions</p>
+    <h2>Tap a question.</h2>
+    <div id="faqList"></div>
+  </section>
+
+  <!-- ================= LOG ================= -->
+  <section class="section" id="log">
+    <p class="num">18 · Reference</p>
+    <p class="kicker">Update log</p>
+    <h2>What changed, so you can reopen this later.</h2>
+    <div class="card">
+      <p><b>August 31, 2026 — hub page.</b> Added a "Listen, watch, or ask" section right up top linking to the Gemini Notebook (50-minute audio conversation, 5-minute video, live chat) and embedded the one-page visual infographic directly on this page, so everything lives at one link.</p>
+      <p class="tiny" style="margin:8px 0 0"><b>August 31, 2026 — v2, full investor memo.</b> Rebuilt from a thin progress page into a full memo: mechanics, market sizing with real cited sources, competitive landscape, the selection process that killed seven other ideas, unit economics with the operating-leverage explanation, risk register, use of funds, and governance gaps — all in both investor terms and plain English.</p>
+      <p class="tiny" style="margin:8px 0 0"><b>August 31, 2026 — v1, first investor briefing.</b> Still on paper. $0 in, $0 out, 0 shops. Idea, rules, and a fake-shop practice run were done. No plumber contacted.</p>
+      <p class="tiny" style="margin:8px 0 0">When a milestone moves, this page gets a new dated line and every number above changes with it. This page is hosted at one fixed link — the same link always shows the latest version once updated.</p>
+    </div>
+  </section>
+
+  <footer class="fine">
+    <p>Updated August 31, 2026. Not legal advice. Not a public sales page. Private — please don't post it. Third-party market data cited above is dated and sourced to public registries and published 2026 industry benchmarks; it describes the category, not a promise about this business's results.</p>
+  </footer>
+</div>
+
+<div class="toc-overlay" id="tocOverlay">
+  <div class="toc-inner">
+    <div class="toc-head">
+      <h2>Contents</h2>
+      <button class="toc-close" id="tocClose" type="button">✕</button>
+    </div>
+    <div class="toc-group">
+      <h4>Start here</h4>
+      <a href="#media">Listen, watch, or ask (audio, video, infographic)</a>
+      <a href="#thesis">01 · The investment thesis</a>
+      <a href="#model">02 · How Frontage actually works</a>
+      <a href="#problem">03 · The problem being sold<span>Real demand data, cited</span></a>
+    </div>
+    <div class="toc-group">
+      <h4>The case</h4>
+      <a href="#market">04 · Market size — TAM / SAM / SOM</a>
+      <a href="#competition">05 · Competition &amp; what's different</a>
+      <a href="#process">06 · Why this idea, not another one</a>
+    </div>
+    <div class="toc-group">
+      <h4>The math</h4>
+      <a href="#economics">07 · Unit economics &amp; margin curve</a>
+      <a href="#projections">08 · Financial scenarios</a>
+      <a href="#funds">12 · Use of the $5,000 cap</a>
+    </div>
+    <div class="toc-group">
+      <h4>How we sell &amp; run it</h4>
+      <a href="#gtm">09 · Go-to-market &amp; the kill test</a>
+      <a href="#ops">10 · Operations &amp; the control system</a>
+    </div>
+    <div class="toc-group">
+      <h4>Before you decide</h4>
+      <a href="#risks">11 · Risk factors</a>
+      <a href="#governance">13 · What you receive as investor</a>
+      <a href="#roadmap">14 · Live scorecard &amp; roadmap</a>
+      <a href="#story">15 · The business in five taps</a>
+    </div>
+    <div class="toc-group">
+      <h4>Reference</h4>
+      <a href="#glossary">16 · Glossary</a>
+      <a href="#faq">17 · FAQ</a>
+      <a href="#log">18 · Update log</a>
+    </div>
+  </div>
+</div>
+
+<nav class="nav">
+  <a href="#top">Top</a>
+  <a href="#media">Listen</a>
+  <a href="#model">Model</a>
+  <a href="#economics">Money</a>
+  <a href="#risks">Risks</a>
+  <a href="#" class="tocopen" id="tocOpenBottom">☰ More</a>
+</nav>
+
+<script>
+/* ---------- status + scorecard ---------- */
+const B = {
+  date: "August 31, 2026",
+  headline: "Still on paper. Nothing is live.",
+  paidShops: 0, moneyIn: 0, spent: 0, takeHome: 0, contacted: 0, signed: 0,
+  cap: 5000, floor: 6000, goalShops: 7, goalTake: 6740
+};
+document.getElementById("dateNow").textContent = B.date;
+document.getElementById("statusBanner").innerHTML =
+  "<b>" + B.headline + "</b><span>As of " + B.date + " · $" + B.moneyIn + " in · $" + B.spent + " spent · " + B.paidShops + " shops paying · $" + B.takeHome + " actual take-home</span>";
+
+const stagepill = (b,s) => '<div class="stagepill"><b>'+b+'</b><span>'+s+'</span></div>';
+document.getElementById("stagepills").innerHTML = [
+  stagepill("Pre-revenue","Business stage"),
+  stagepill("0 of 20","Shops contacted"),
+  stagepill("$0","Dollars collected"),
+  stagepill("$0 / $5,000","Startup cap used")
+].join("");
+
+const kpi = (label, val, tag) =>
+  '<div class="card kpi"><span>' + label + "</span><b>" + val + '</b><span class="tag">' + tag + "</span></div>";
+document.getElementById("kpis").innerHTML = [
+  kpi("Paying shops", B.paidShops + " / " + B.goalShops, "Need " + (B.goalShops - B.paidShops) + " more"),
+  kpi("Monthly take-home", "$" + B.takeHome.toLocaleString(), "Floor goal ≈ $" + B.goalTake.toLocaleString()),
+  kpi("Startup spent", "$" + B.spent + " / $" + B.cap.toLocaleString(), "$" + (B.cap - B.spent).toLocaleString() + " left"),
+  kpi("Shops signed", B.signed + " · contacted " + B.contacted, "Outreach not started")
+].join("");
+
+const STEPS = [
+  { s:"done", t:"Idea locked on paper", n:"Las Vegas plumbing demand desk. Cleared an independent five-system, 80+ round review. Not live.", sub:["7 other ideas explicitly rejected first — see Section 06"] },
+  { s:"done", t:"Price and rules written", n:"$1,800 / 90 days. Plumber keeps Google. No job-count promise. Concession ceiling frozen." },
+  { s:"done", t:"Practice on a fake shop", n:"Desert Pipe test run, end to end. No real plumber contacted." },
+  { s:"now", t:"This investor memo", n:"You are here. Understand the full case first. No spend yet.", sub:["Ownership % and your check size still need to be written — see Section 13"] },
+  { s:"", t:"Legal name / insurance quote / minimal site", n:"Not started. Needs Shawn's yes. No money moved yet.", sub:["Insurance premium is Missing everywhere public sources were checked"] },
+  { s:"", t:"Permission to talk to plumbers", n:"20 named, license-verified shops. 0 called. Outreach clock is off." },
+  { s:"", t:"First signed shop + first $1,800", n:"The first real proof. Until then, demand stays unproven on purpose." },
+  { s:"", t:"3 paying shops", n:"Modeled take-home ≈ $2,660. Still under the floor." },
+  { s:"", t:"Real insurance quote, then shop 7", n:"Shop 7 is explicitly stopped until insurance is a real quote, not a guess." },
+  { s:"", t:"7 paying shops · clears the floor", n:"Modeled take-home ≈ $6,740 after the tax set-aside." },
+  { s:"", t:"Grow past the floor", n:"Same offer, more shops from the ≈700-shop county pool, only if quality and Shawn's time still hold." }
+];
+document.getElementById("steps").innerHTML = STEPS.map((x) =>
+  '<div class="step"><div class="dot ' + x.s + '"></div><div><b>' + x.t + '</b><div class="tiny">' + x.n + "</div>" +
+  (x.sub ? '<ul class="substeps">' + x.sub.map(s=>'<li>'+s+'</li>').join('') + '</ul>' : '') +
+  "</div></div>"
+).join("");
+
+/* ---------- story ---------- */
+const STORIES = [
+  { t:"A plumber already has a Google page.", b:"People search “plumber near me.” The owner is usually under a sink, not fixing photos, hours, and ads." },
+  { t:"Frontage would run only that public side.", b:"Hours, photos, draft review replies, ads inside a written cap the plumber pays. No trucks. No leak quotes. No “we will get you 12 jobs.”" },
+  { t:"The shop would pay $1,800 a month.", b:"Ninety days to start. They keep Google, trucks, customers, and the ads budget. They can pause anytime." },
+  { t:"Shawn watches. He does not become the plumber.", b:"Weekly report and a kill switch. First sales still have to be sold later — only if he says to start." },
+  { t:"You should see the books, not a story.", b:"Shops, cash, spend, milestones, and every risk on this page. When they move, the date at the top moves too." }
+];
+let si = 0;
+const renderStory = () => {
+  const s = STORIES[si];
+  document.getElementById("storyChip").textContent = (si + 1) + " of " + STORIES.length;
+  document.getElementById("storyTitle").textContent = s.t;
+  document.getElementById("storyBody").textContent = s.b;
+  document.getElementById("storyDots").innerHTML = STORIES.map((_, i) => "<i class='" + (i === si ? "on" : "") + "'></i>").join("");
+  document.getElementById("nextStory").textContent = si === STORIES.length - 1 ? "Done" : "Next";
+};
+document.getElementById("prevStory").onclick = () => { si = (si + STORIES.length - 1) % STORIES.length; renderStory(); };
+document.getElementById("nextStory").onclick = () => { si = Math.min(STORIES.length - 1, si + 1); renderStory(); };
+renderStory();
+
+/* ---------- money / margin ---------- */
+const takeHome = (n) => Math.round(0.8 * (1275 * n - 500));
+const marginPct = (n) => takeHome(n) / (1800 * n) * 100;
+const notes = {
+  1: "One shop on paper. Far below the $6,000 floor.",
+  3: "Three shops on paper. Still under the floor.",
+  6: "Six shops on paper. Still short of the floor by design of the model.",
+  7: "Seven shops is the planning number that clears the floor. Shop 7 waits on a real insurance quote.",
+  10: "Ten shops is extra paper math, not a forecast.",
+  15: "Fifteen shops is extra paper math — capacity past ~10-15 is untested.",
+  20: "Twenty shops is extra paper math — matches the full named beachhead list, not a forecast."
+};
+const money = (n) => {
+  const rev = 1800 * n, work = 525 * n, desk = 500, before = rev - work - desk, tax = Math.round(0.2 * before), take = takeHome(n), share = Math.round((take / rev) * 100);
+  document.getElementById("take").textContent = "$" + take.toLocaleString();
+  document.getElementById("takeNote").textContent = notes[n] || "";
+  document.getElementById("bar").style.width = Math.min(100, Math.round((take / 20000) * 100)) + "%";
+  document.getElementById("marginNote").textContent = "About " + share + " cents of every shop-fee dollar would be modeled take-home at " + n + " shop" + (n > 1 ? "s" : "") + ". Actual take-home today is $0.";
+  const rows = [
+    ["From shops (paper)", "$" + rev.toLocaleString(), "var(--ink)", 100],
+    ["Work cost", "−$" + work.toLocaleString(), "var(--copper)", Math.round((work / rev) * 100)],
+    ["Shared desk (fixed $500)", "−$500", "var(--danger)", Math.round((desk / rev) * 100)],
+    ["Tax set-aside", "−$" + tax.toLocaleString(), "var(--muted)", Math.round((tax / rev) * 100)],
+    ["Modeled take-home", "$" + take.toLocaleString(), "var(--sage)", share]
+  ];
+  document.getElementById("split").innerHTML = rows.map((r) =>
+    '<div class="line"><span>' + r[0] + "</span><b>" + r[1] + '</b></div><div class="fat"><i style="width:' + r[3] + "%;background:" + r[2] + '"></i></div>'
+  ).join("");
+  drawChart(n);
+};
+const SHOP_OPTIONS = [1,3,6,7,10,15,20];
+const btns = document.getElementById("shopBtns");
+SHOP_OPTIONS.forEach((n) => {
+  const b = document.createElement("button");
+  b.type = "button";
+  b.className = "pill" + (n === 7 ? " on" : "");
+  b.textContent = n + " shop" + (n > 1 ? "s" : "");
+  b.onclick = () => { [...btns.children].forEach((x) => x.classList.remove("on")); b.classList.add("on"); money(n); };
+  btns.appendChild(b);
+});
+
+/* ---------- margin chart ---------- */
+function drawChart(selected){
+  const pts = SHOP_OPTIONS.map(n => ({n, m: marginPct(n)}));
+  const W=320,H=150,padL=30,padR=10,padT=14,padB=24;
+  const minM = 30, maxM = 60;
+  const x = i => padL + i*((W-padL-padR)/(pts.length-1));
+  const y = m => padT + (1 - (m-minM)/(maxM-minM)) * (H-padT-padB);
+  let path = pts.map((p,i) => (i===0?"M":"L") + x(i).toFixed(1) + "," + y(p.m).toFixed(1)).join(" ");
+  let svg = '<path d="'+path+'" fill="none" stroke="var(--copper)" stroke-width="2.5"/>';
+  pts.forEach((p,i) => {
+    const isSel = p.n === selected;
+    svg += '<circle cx="'+x(i).toFixed(1)+'" cy="'+y(p.m).toFixed(1)+'" r="'+(isSel?5:3)+'" fill="'+(isSel?"var(--sage)":"var(--copper)")+'"/>';
+    svg += '<text x="'+x(i).toFixed(1)+'" y="'+(H-8)+'" font-size="9" fill="var(--muted)" text-anchor="middle">'+p.n+'</text>';
+    svg += '<text x="'+x(i).toFixed(1)+'" y="'+(y(p.m)-9).toFixed(1)+'" font-size="9" fill="var(--ink2)" text-anchor="middle">'+Math.round(p.m)+'%</text>';
+  });
+  svg += '<line x1="'+padL+'" y1="'+(H-padB)+'" x2="'+(W-padR)+'" y2="'+(H-padB)+'" stroke="var(--line)" stroke-width="1"/>';
+  document.getElementById("marginChart").innerHTML = svg;
+}
+money(7);
+
+/* ---------- risks ---------- */
+const RISKS = [
+  { sev:"high", t:"Nobody buys.", b:"Revenue stays $0. The named kill test — 20 shops, 14 days after real outreach starts, 0 signed — forces the plan to be re-examined instead of quietly defended forever." },
+  { sev:"high", t:"The $525 cost per shop is modeled, not quoted.", b:"It's built from an assumed $23.02/hour labor-equivalent rate, not a vendor invoice or a paid wage. If real cost runs higher, every margin number in Section 07 shrinks." },
+  { sev:"high", t:"Insurance is completely missing.", b:"Public NAIC, ISO, and Nevada Division of Insurance sources were checked and none published a premium that applies to a one-person home-service operator. Shop #7 — the one that clears the income floor — is explicitly blocked until a real quote exists." },
+  { sev:"med", t:"Platform dependency.", b:"The entire service lives inside Google's Business Profile and Ads rules. A policy change, suspension, or account dispute is outside Frontage's control — the same account-hostage pattern in Section 03 that Frontage protects the customer from, it does not protect Frontage from Google itself." },
+  { sev:"high", t:"Shawn becomes the desk instead of the owner.", b:"If daily exceptions, sales calls, or phone-answering fall back onto Shawn, the plan itself calls that a failure of the model — even if the money still looks fine." },
+  { sev:"med", t:"Regulatory boundary risk.", b:"Frontage is not a licensed plumbing contractor and must never quote, diagnose, dispatch, or promise jobs. Crossing that line isn't just a brand problem — it's a licensing-exposure problem. The whole offer is written to avoid it." },
+  { sev:"med", t:"Concentration risk.", b:"One metro (Las Vegas), one trade (plumbing), one price ($1,800), one channel (Google). No diversification exists yet — on purpose, until the first beachhead is proven." },
+  { sev:"med", t:"Capacity past ~10–15 shops is untested.", b:"The ~65% automation target and exception-routing system have not been run at that scale. A paid, non-founder exception-handler may be needed — a cost not yet included in any projection above." },
+  { sev:"high", t:"Your ownership paper isn't written.", b:"Your %, your check size, and the split mechanics don't exist yet. This is the single biggest open item in this whole document. Don't send money against a “we'll figure it out later” understanding." }
+];
+document.getElementById("riskList").innerHTML = RISKS.map(r =>
+  '<div class="risk '+(r.sev==="med"?"med":"")+'"><div class="rk">'+(r.sev==="high"?"Highest attention":"Watch")+'</div><b>'+r.t+'</b><p style="margin:6px 0 0">'+r.b+'</p></div>'
+).join("");
+
+/* ---------- glossary ---------- */
+const GLOSS = [
+  ["TAM / SAM / SOM", "Total, then reachable, then realistically-targeted slice of a market. Here: all of Nevada, then Clark County, then the 20 named shops."],
+  ["Gross margin", "What's left of revenue after the direct cost of delivering the service — here, ~71% per shop before overhead and tax."],
+  ["Contribution margin", "What one more customer adds to profit once fixed costs are already covered — this is why the margin curve in Section 07 rises."],
+  ["Operating leverage", "When a fixed cost gets spread across more revenue, so profit grows faster than revenue does."],
+  ["CAC", "Cost to acquire one customer. Frontage's own CAC to sign one shop isn't measurable yet — zero outreach has happened."],
+  ["LTV", "Total value a customer is worth over the life of the relationship, not just one month."],
+  ["Retainer", "A fixed recurring fee for ongoing work, as opposed to a one-time project fee."],
+  ["Beachhead market", "The first, narrow market a business proves itself in before trying to expand."],
+  ["Concentration risk", "Danger of relying on one market, one channel, or one customer type with no backup."],
+  ["Key-person risk", "Danger that the business depends on one specific person continuing to do specific work."],
+  ["Planning-confidence score", "A rating of how solid the plan is on paper — not a claim that customers already exist."],
+  ["Kill test / falsification rule", "A number written down in advance that, if hit, forces the team to admit the plan isn't working instead of arguing around it."],
+  ["Payback period", "How long it takes for what a customer pays to cover what it cost to acquire and serve them."],
+  ["Churn", "The rate at which paying customers stop paying and leave."]
+];
+document.getElementById("glossaryList").innerHTML = GLOSS.map(g =>
+  "<details><summary>"+g[0]+"</summary><p>"+g[1]+"</p></details>"
+).join("");
+
+/* ---------- faq ---------- */
+const FAQ = [
+  ["Has anyone paid yet?", "No. Zero shops, zero dollars. The first sale hasn't been asked yet — outreach hasn't started."],
+  ["Why should I believe this will make money if nobody has bought it?", "You shouldn't believe it on faith — that's the point of this document. The category (local Google management for contractors) already has real paying customers everywhere at $800–$5,000/month, and the unit economics work on paper at Frontage's price. What's unproven is whether specific Clark County shops will buy from Frontage, and that has a dated test attached to it, not a promise."],
+  ["What actually makes Frontage different from any other marketing agency?", "The owner never loses control of their Google account, Frontage never touches their ad money, and Frontage never promises a job count it can't control. Those are frozen rules, not sales talk — see Section 05."],
+  ["How do you know there's enough demand for this?", "We don't know it — we're honest that we don't. What we do know: the going market rate proves people already pay for this kind of work, and none of the 20 shops we researched show signs of already having a locked-in specialist. That's a reasonable case to test, not proof."],
+  ["Why plumbing, why Las Vegas, and why not one of the other ideas?", "Seven other ideas were specifically rejected first, for named reasons — see Section 06. Plumbing in Las Vegas is the one that survived an unusually strict, independent multi-system review, fits the $5,000 cap, and uses a free public list instead of a paid one."],
+  ["How does the math actually work, in one breath?", "$1,800 in per shop, about $525 out to do the work, a flat $500 to run the whole desk no matter how many shops, then 20% held back for tax. More shops makes that flat $500 matter less, so the take-home percentage climbs."],
+  ["What's the absolute worst case?", "Twenty real asks produce zero signatures within 14 days. Then the plan admits demand is weaker than hoped, spending stays at $0 either way, and nothing beyond the $5,000 cap was ever at risk."],
+  ["What do I actually own if I put money in?", "Nothing is written yet — and that's flagged in Section 13 as the most important open item. Do not treat anything in this document as an ownership agreement."],
+  ["What can't Shawn do without permission or without changing the rules?", "He can't drop the price, shorten the term, guarantee results, float a shop's ad spend, take over a shop's Google account, or auto-book jobs without approval. Those are frozen, not situational."],
+  ["When do I find out if it's working or not?", "The moment outreach starts, you'll see the demand ledger move in real numbers — contacted, signed, or declined with a reason — inside 14 days. This page gets a new dated line the moment anything material changes."]
+];
+document.getElementById("faqList").innerHTML = FAQ.map(f =>
+  "<details><summary>"+f[0]+"</summary><p>"+f[1]+"</p></details>"
+).join("");
+
+/* ---------- progress bar ---------- */
+const progressEl = document.getElementById("progress");
+const onScroll = () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+  progressEl.style.width = Math.min(100, Math.max(0, pct)) + "%";
+};
+document.addEventListener("scroll", onScroll, { passive:true });
+onScroll();
+
+/* ---------- toc overlay ---------- */
+const tocOverlay = document.getElementById("tocOverlay");
+const openToc = (e) => { if(e) e.preventDefault(); tocOverlay.classList.add("open"); };
+const closeToc = () => tocOverlay.classList.remove("open");
+document.getElementById("tocOpenTop").onclick = openToc;
+document.getElementById("tocOpenBottom").onclick = openToc;
+document.getElementById("tocClose").onclick = closeToc;
+tocOverlay.querySelectorAll("a").forEach(a => a.addEventListener("click", closeToc));
+</script>
+</body>
+</html>
