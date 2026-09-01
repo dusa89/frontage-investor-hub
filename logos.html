@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#0d0c0a" />
+<title>Frontage — pick a logo</title>
+<style>
+:root{
+  --bg:#0d0c0a; --bg2:#151310; --bg3:#1c1915; --line:#2b2620; --line2:#3a332a;
+  --ink:#f4eee1; --ink2:#d9d0bf; --muted:#a89d89; --muted2:#8a7f6d;
+  --copper:#e0965a; --sage:#7fb08f;
+  --safe:env(safe-area-inset-bottom,0px); --top:env(safe-area-inset-top,0px); --maxw:1040px;
+}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:ui-sans-serif,system-ui,sans-serif;font-size:16.5px;line-height:1.55;padding-bottom:calc(86px + var(--safe))}
+h1,h2{font-family:ui-serif,Georgia,serif;letter-spacing:-.02em;margin:0 0 .5rem;font-weight:600}
+h1{font-size:clamp(1.8rem,6.5vw,2.7rem);line-height:1.08}
+h2{font-size:1.25rem;margin:28px 0 12px}
+p{margin:0 0 .85rem;color:var(--ink2)}a{color:var(--copper)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 18px 28px}
+.kicker{color:var(--copper);font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin:0 0 .4rem}
+.lede{font-size:1.05rem}
+.warn{border:1px dashed var(--line2);border-radius:14px;padding:13px 14px;margin:12px 0;background:rgba(224,150,90,.05);font-size:.9rem;color:var(--muted)}
+.grid{display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:720px){.grid{grid-template-columns:1fr 1fr}.wide{grid-column:1/-1}}
+.card{background:var(--bg2);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.card img{width:100%;display:block;background:#f4efe6}
+.meta{padding:14px 16px 16px}
+.who{font-size:.66rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--copper);margin:0 0 4px}
+.meta h3{margin:0 0 4px;font-size:1.12rem;font-family:ui-serif,Georgia,serif}
+.meta p{margin:0;font-size:.88rem;color:var(--muted)}
+.copybox{background:var(--bg3);border:1px solid var(--line2);color:var(--ink);border-radius:14px;padding:16px;font-size:.92rem;white-space:pre-wrap;margin:14px 0}
+.topbar{position:sticky;top:0;z-index:40;display:flex;align-items:center;gap:10px;padding:calc(10px + var(--top)) 14px 10px;background:rgba(13,12,10,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.topbar .mark{font-family:ui-serif,Georgia,serif;font-weight:700}.topbar .spacer{flex:1}
+.topbar a.btn{min-height:38px;display:inline-flex;align-items:center;padding:0 12px;border:1px solid var(--line2);border-radius:10px;color:var(--ink);text-decoration:none;font:700 .78rem/1 ui-sans-serif,sans-serif}
+.nav{position:fixed;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(5,1fr);background:rgba(13,12,10,.94);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:6px 2px calc(9px + var(--safe));z-index:50}
+.nav a{text-align:center;text-decoration:none;color:var(--muted);font-size:10.5px;font-weight:700;padding:9px 1px;min-height:44px}
+.nav a.on{color:var(--copper)}
+.tiny{color:var(--muted2);font-size:.82rem}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <span class="mark">Frontage logos</span>
+  <span class="spacer"></span>
+  <a class="btn" href="learn.html">Learn</a>
+  <a class="btn" href="index.html">← Memo</a>
+</div>
+<div class="wrap">
+  <p class="kicker" style="margin-top:16px">Ten pictures · you pick · no winner named</p>
+  <h1>Here are the actual logos. Point at one.</h1>
+  <p class="lede">Five Cursor sketches. Five advisor marks drawn from their independent directions. Equal weight. Concepts, not final print files. A pick is not a website, a van wrap, or a trademark filing.</p>
+  <div class="warn"><b>If a letter looks a little dirty,</b> pick it for the idea. We redraw the type clean after you choose.</div>
+
+  <h2>Menu A — Cursor sketches</h2>
+  <div class="grid">
+    <article class="card"><img src="logos/frontage-logo-01-storefront.png" alt="Cursor A1 Storefront" /><div class="meta"><p class="who">Cursor · A1</p><h3>Storefront</h3><p>Door + transom. Closest to the name. Quiet trade office.</p></div></article>
+    <article class="card"><img src="logos/frontage-logo-02-elbow.png" alt="Cursor A2 Elbow" /><div class="meta"><p class="who">Cursor · A2</p><h3>Elbow</h3><p>Pipe corner that also reads as a building corner. Trade without a cartoon wrench.</p></div></article>
+    <article class="card wide"><img src="logos/frontage-logo-03-wordmark.png" alt="Cursor A3 Brass plaque" /><div class="meta"><p class="who">Cursor · A3</p><h3>Brass plaque</h3><p>No icon. Word only, like a plate on the shop.</p></div></article>
+    <article class="card"><img src="logos/frontage-logo-04-f-transom.png" alt="Cursor A4 F transom" /><div class="meta"><p class="who">Cursor · A4</p><h3>F / transom</h3><p>Monogram that still suggests a window over a door. Works small.</p></div></article>
+    <article class="card"><img src="logos/frontage-logo-05-colonnade.png" alt="Cursor A5 Colonnade" /><div class="meta"><p class="who">Cursor · A5</p><h3>Colonnade</h3><p>Two posts and a lintel. Neighborhood institution, not tech.</p></div></article>
+  </div>
+
+  <h2>Menu B — Advisor marks (drawn from their directions)</h2>
+  <div class="grid">
+    <article class="card"><img src="logos/frontage-advisor-claude-ledger-line.png" alt="Claude Ledger Line" /><div class="meta"><p class="who">Claude · B1</p><h3>Ledger Line</h3><p>Wordmark, a measured ledger line, and a pause tick. Invoice / permit-record feel.</p></div></article>
+    <article class="card"><img src="logos/frontage-advisor-kimi-ledger-line.png" alt="Kimi Ledger Line" /><div class="meta"><p class="who">Kimi · B2</p><h3>Ledger Line</h3><p>Three unequal charcoal rules crossed by a copper register that hints at an F.</p></div></article>
+    <article class="card"><img src="logos/frontage-advisor-gpt-threshold.png" alt="GPT Threshold Mark" /><div class="meta"><p class="who">GPT · B3</p><h3>Threshold Mark</h3><p>Two charcoal uprights and an inset copper lintel. Empty aperture. A limit, not a door cartoon.</p></div></article>
+    <article class="card"><img src="logos/frontage-advisor-gemini-boundary.png" alt="Gemini Boundary Marker" /><div class="meta"><p class="who">Gemini · B4</p><h3>Boundary Marker</h3><p>90-degree architectural corner plus a separated copper square. Surveying-label wordmark.</p></div></article>
+    <article class="card wide"><img src="logos/frontage-advisor-grok-threshold.png" alt="Grok Controlled Threshold" /><div class="meta"><p class="who">Grok · B5</p><h3>Controlled Threshold</h3><p>Two uprights and a lintel with the lower-right corner left open in copper. Bounded public edge.</p></div></article>
+  </div>
+
+  <h2>What to type back</h2>
+  <div class="copybox">Logo pick: A1 Storefront / A2 Elbow / A3 Brass plaque / A4 F-transom / A5 Colonnade
+or B1 Claude Ledger / B2 Kimi Ledger / B3 GPT Threshold / B4 Gemini Boundary / B5 Grok Threshold
+or none — try again
+If none: what felt wrong (too fancy / too plumber / too tech / messy type)</div>
+  <p class="tiny">Paper stage. $0 spent. A pick does not start the website.</p>
+</div>
+<nav class="nav">
+  <a href="index.html">Memo</a>
+  <a href="learn.html">Learn</a>
+  <a class="on" href="logos.html">Logos</a>
+  <a href="playbook.html">Playbook</a>
+  <a href="documents.html">Docs</a>
+</nav>
+</body>
+</html>
