@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#0d0c0a" />
+<title>Frontage — document inventory</title>
+<style>
+:root{--bg:#0d0c0a;--bg2:#151310;--bg3:#1c1915;--line:#2b2620;--line2:#3a332a;--ink:#f4eee1;--ink2:#d9d0bf;--muted:#a89d89;--copper:#e0965a;--sage:#7fb08f;--warn:#e08a63;--safe:env(safe-area-inset-bottom,0px);--top:env(safe-area-inset-top,0px);--maxw:920px}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:ui-sans-serif,system-ui,sans-serif;font-size:16px;line-height:1.6;padding-bottom:calc(86px + var(--safe))}
+h1,h2,h3{font-family:ui-serif,Georgia,serif;letter-spacing:-.02em;margin:0 0 .5rem;font-weight:600}
+h1{font-size:clamp(1.7rem,6vw,2.4rem)}h2{font-size:1.35rem}p{margin:0 0 .85rem;color:var(--ink2)}a{color:var(--copper)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 18px 28px}.section{padding-top:24px;scroll-margin-top:64px}
+.kicker{color:var(--copper);font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin:0 0 .4rem}
+.callout{border:1px dashed var(--line2);border-radius:14px;padding:13px 14px;margin:12px 0;background:rgba(224,150,90,.05);font-size:.9rem;color:var(--muted)}.callout b{color:var(--copper)}
+.tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;margin:12px 0}
+table{border-collapse:collapse;width:100%;min-width:520px;font-size:.84rem}
+th,td{padding:8px 11px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--copper);font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;background:var(--bg3)}
+td{color:var(--ink2)}tr:last-child td{border-bottom:0}
+.tag{font-size:.68rem;font-weight:800;padding:3px 8px;border-radius:99px;display:inline-block}
+.tag.done{background:rgba(127,176,143,.15);color:var(--sage)}
+.tag.draft{background:rgba(224,150,90,.12);color:var(--copper)}
+.tag.miss{background:rgba(224,138,99,.12);color:var(--warn)}
+.tag.you{background:rgba(168,157,137,.15);color:var(--muted)}
+.topbar{position:sticky;top:0;z-index:40;display:flex;align-items:center;gap:10px;padding:calc(10px + var(--top)) 14px 10px;background:rgba(13,12,10,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.topbar .mark{font-family:ui-serif,Georgia,serif;font-weight:700}.topbar .spacer{flex:1}
+.topbar a.btn{min-height:38px;display:inline-flex;align-items:center;padding:0 12px;border:1px solid var(--line2);border-radius:10px;color:var(--ink);text-decoration:none;font:700 .78rem/1 ui-sans-serif,sans-serif}
+.nav{position:fixed;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(4,1fr);background:rgba(13,12,10,.94);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:6px 2px calc(9px + var(--safe));z-index:50}
+.nav a{text-align:center;text-decoration:none;color:var(--muted);font-size:10.5px;font-weight:700;padding:9px 1px;min-height:44px}
+.tiny{color:var(--muted);font-size:.84rem}code{font-size:.78rem;background:var(--bg3);padding:2px 6px;border-radius:6px}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <span class="mark">Document inventory</span>
+  <span class="spacer"></span>
+  <a class="btn" href="playbook.html">Playbook</a>
+  <a class="btn" href="index.html">Memo</a>
+</div>
+<div class="wrap">
+  <section class="section" id="top">
+    <p class="kicker" style="margin-top:12px">Every file · honest status</p>
+    <h1>What has been planned, what exists as drafts, and what still needs you.</h1>
+    <p class="lede">Round 141 closed internal <b>planning</b> — the business model and operating rules are written. That is <b>not</b> the same as filed, signed, published, or live. This page is the map.</p>
+    <div class="callout"><b>Repo folder (228+ files):</b> <code>fully autonomous business 1/loop/planning/desk/</code> — start with <code>README.md</code> for the index. Online: this hub + <a href="playbook.html">operations playbook</a>.</div>
+  </section>
+
+  <section class="section" id="legend">
+    <h2>Status tags</h2>
+    <p><span class="tag done">PLANNED</span> Written on disk · rules/specs/drafts · not live<br>
+    <span class="tag draft">DRAFT</span> Owner-language copy exists · not signed or published<br>
+    <span class="tag miss">MISSING</span> Not on disk or not started<br>
+    <span class="tag you">YOUR CALL</span> Needs Shawn (and maybe sister) to decide · not more AI planning</p>
+  </section>
+
+  <section class="section" id="planned">
+    <p class="kicker">Planning complete (on disk)</p>
+    <h2>Business &amp; operations — already written</h2>
+    <div class="tblwrap"><table>
+      <tr><th>What</th><th>File</th><th>Tag</th></tr>
+      <tr><td>Frozen offer ($1,800/90d, ownership, no guarantee)</td><td><code>LOCK.md</code></td><td><span class="tag done">PLANNED</span></td></tr>
+      <tr><td>Activation — 6 facts, 72h clock, state machine</td><td><code>PR2_MERGED_ACTIVATION.md</code> + <code>test_activation_machine.mjs</code></td><td><span class="tag done">TESTED</span> (fake shop only)</td></tr>
+      <tr><td>8 exception routes + PR-3 overflow</td><td><code>EXCEPTION_ROUTING.md</code>, <code>PR3_OPERATOR_CELL.md</code></td><td><span class="tag done">PLANNED</span></td></tr>
+      <tr><td>Weekly task ceilings (GBP, reviews, ads, report)</td><td><code>SCOPE_LEDGER_1800.md</code></td><td><span class="tag done">PLANNED</span></td></tr>
+      <tr><td>4 delivery SOPs + minute budgets</td><td><code>DELIVERY_SOP_LIBRARY.md</code></td><td><span class="tag done">PLANNED</span></td></tr>
+      <tr><td>Sample weekly report + review reply + ads dry-runs</td><td><code>SOP_DRY_RUN_01.md</code> … <code>_04.md</code></td><td><span class="tag done">PLANNED</span></td></tr>
+      <tr><td>First-week kickoff (5 MVBP outputs)</td><td><code>MVBP_FIRST_WEEK_CARD.md</code>, <code>FIRST_WEEK_MVBP_PAPER_01.md</code></td><td><span class="tag done">PLANNED</span></td></tr>
+      <tr><td>Customer journey + future site IA</td><td><code>CUSTOMER_EXPERIENCE_SPEC.md</code></td><td><span class="tag done">PLANNED</span></td></tr>
+      <tr><td>Public one-pager copy (not built)</td><td><code>OWNER_ONE_PAGER_PAPER_01.md</code></td><td><span class="tag draft">DRAFT</span></td></tr>
+      <tr><td>Owner portal spec (not built)</td><td><code>OWNER_STATUS_PAGE_PAPER_01.md</code></td><td><span class="tag draft">DRAFT</span></td></tr>
+      <tr><td>Data retention + incident rules</td><td><code>DATA_STORE_RETENTION_AND_INCIDENT_01.md</code></td><td><span class="tag done">PLANNED</span> (internal — not public privacy policy)</td></tr>
+      <tr><td>Sales script + 20-shop register</td><td><code>OUTREACH_SCRIPT.md</code>, <code>APPROACH_REGISTER.md</code></td><td><span class="tag done">PLANNED</span> · 0 contacted</td></tr>
+      <tr><td>Unit economics + dual ledger</td><td><code>DUAL_LEDGER.md</code>, <code>CAP_7_COST_AND_INPUTS_LEDGER.md</code></td><td><span class="tag done">PLANNED</span></td></tr>
+      <tr><td>Launch checklist (22 pre-contact steps)</td><td><code>TOP1_LAUNCH_CHECKLIST.md</code></td><td><span class="tag done">PLANNED</span></td></tr>
+      <tr><td>Brand + voice direction</td><td><code>BRAND_FOUNDATION_BRIEF.md</code></td><td><span class="tag done">PLANNED</span></td></tr>
+      <tr><td>Investor memo + your operating book</td><td><code>owner-book/</code> + this hub</td><td><span class="tag done">PUBLISHED</span></td></tr>
+    </table></div>
+  </section>
+
+  <section class="section" id="contracts">
+    <p class="kicker">Customer legal</p>
+    <h2>Contracts — drafts yes, signed no</h2>
+    <div class="tblwrap"><table>
+      <tr><th>Document</th><th>File</th><th>Status</th></tr>
+      <tr><td>Services agreement (owner language)</td><td><code>SERVICES_AGREEMENT_OWNER_LANGUAGE_01.md</code></td><td><span class="tag draft">DRAFT</span> — not countersigned</td></tr>
+      <tr><td>Media cap exhibit (owner funds ads)</td><td><code>MEDIA_CAP_EXHIBIT_01.md</code></td><td><span class="tag draft">DRAFT</span></td></tr>
+      <tr><td>Pause / cancel exhibit</td><td><code>PAUSE_CANCEL_EXHIBIT_01.md</code></td><td><span class="tag draft">DRAFT</span></td></tr>
+      <tr><td>Terms of Service (website)</td><td>—</td><td><span class="tag miss">MISSING</span></td></tr>
+      <tr><td>Privacy Policy (public URL)</td><td>—</td><td><span class="tag miss">MISSING</span> (internal data rules only)</td></tr>
+      <tr><td>Refund policy (customer-facing)</td><td>—</td><td><span class="tag miss">MISSING</span> (chargeback route internal only)</td></tr>
+      <tr><td>Lawyer-final executed templates</td><td>—</td><td><span class="tag you">YOUR CALL</span> — use drafts vs attorney review</td></tr>
+    </table></div>
+  </section>
+
+  <section class="section" id="missing">
+    <p class="kicker">Not built yet</p>
+    <h2>Launch infrastructure — still to do</h2>
+    <div class="tblwrap"><table>
+      <tr><th>Item</th><th>Status</th><th>Blocks</th></tr>
+      <tr><td>LLC / DBA / EIN</td><td><span class="tag miss">MISSING</span></td><td>Clean invoicing, bank account</td></tr>
+      <tr><td>Business bank account</td><td><span class="tag miss">MISSING</span></td><td>After entity</td></tr>
+      <tr><td>Insurance quote (E&amp;O, GL, cyber)</td><td><span class="tag miss">MISSING</span></td><td>Shop-7 scale narrative</td></tr>
+      <tr><td>Domain + public website</td><td><span class="tag miss">MISSING</span></td><td>Cold owners finding offer</td></tr>
+      <tr><td>Stripe / payment link</td><td><span class="tag miss">MISSING</span></td><td>Collecting $1,800</td></tr>
+      <tr><td>Approval portal / app</td><td><span class="tag miss">MISSING</span></td><td>Spec only — email first</td></tr>
+      <tr><td>Logo file</td><td><span class="tag miss">MISSING</span></td><td>Brand direction only</td></tr>
+      <tr><td>Line-by-line $5,000 budget</td><td><span class="tag miss">MISSING</span></td><td>Cap exists; no itemized plan</td></tr>
+      <tr><td>Real shop weekly report</td><td><span class="tag miss">MISSING</span></td><td>0 ACTIVE shops</td></tr>
+    </table></div>
+  </section>
+
+  <section class="section" id="discuss">
+    <p class="kicker">Still to discuss</p>
+    <h2>Founder-only gates — not more planning rounds</h2>
+    <div class="tblwrap"><table>
+      <tr><th>Decision</th><th>Who</th><th>Notes</th></tr>
+      <tr><td>Is this the business? (yes / no / change)</td><td>Shawn</td><td><code>FOUNDER_BRIEF.md</code></td></tr>
+      <tr><td>Brand name / DBA / domain (“Frontage” recommended)</td><td>Shawn</td><td><span class="tag you">YOUR CALL</span></td></tr>
+      <tr><td>Ownership % + sister’s check size + simple agreement</td><td>Shawn + sister</td><td><span class="tag you">YOUR CALL</span> — biggest open item</td></tr>
+      <tr><td>DBA only vs LLC now?</td><td>Shawn</td><td><span class="tag you">YOUR CALL</span></td></tr>
+      <tr><td>Spend on insurance quote?</td><td>Shawn</td><td><span class="tag you">YOUR CALL</span></td></tr>
+      <tr><td>Build public website?</td><td>Shawn</td><td>Copy ready; site not</td></tr>
+      <tr><td>Contracts: drafts OK or lawyer?</td><td>Shawn</td><td>Drafts are council research copies</td></tr>
+      <tr><td>Outreach yes — contact 20 shops?</td><td>Shawn</td><td>Paused; 0 contacted</td></tr>
+      <tr><td>Sister coverage: kill-switch only or also talk to shops?</td><td>Shawn + sister</td><td>Asked in <code>technical.html</code>, not answered</td></tr>
+    </table></div>
+  </section>
+
+  <section class="section" id="order">
+    <p class="kicker">Suggested order</p>
+    <h2>What happens next (nothing skips)</h2>
+    <ol style="color:var(--ink2);padding-left:20px">
+      <li>Read <a href="playbook.html">operations playbook</a> + investor memo — know the business cold</li>
+      <li>You + sister: ownership %, check size, written agreement</li>
+      <li>Lock name / entity (DBA or LLC)</li>
+      <li>Insurance quote → domain/site → finalize contracts → Stripe</li>
+      <li>Your outreach yes → 14-day kill test on 20 named shops</li>
+    </ol>
+    <p class="tiny">Updated August 31, 2026 · Planning closed Round 141 · Execution gates are founder-only</p>
+  </section>
+</div>
+<nav class="nav">
+  <a href="#planned">Planned</a>
+  <a href="#contracts">Legal</a>
+  <a href="#discuss">Discuss</a>
+  <a href="index.html">Memo</a>
+</nav>
+</body>
+</html>

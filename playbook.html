@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#0d0c0a" />
+<title>Frontage — full operations playbook</title>
+<style>
+:root{
+  --bg:#0d0c0a; --bg2:#151310; --bg3:#1c1915; --line:#2b2620; --line2:#3a332a;
+  --ink:#f4eee1; --ink2:#d9d0bf; --muted:#a89d89; --muted2:#8a7f6d;
+  --copper:#e0965a; --copper-dim:#c17a45; --sage:#7fb08f; --sage-dim:#4d7a5c;
+  --warn:#e08a63; --safe:env(safe-area-inset-bottom,0px); --top:env(safe-area-inset-top,0px);
+  --maxw:920px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:ui-sans-serif,system-ui,sans-serif;font-size:16.5px;line-height:1.6;padding-bottom:calc(86px + var(--safe))}
+h1,h2,h3{font-family:ui-serif,Georgia,serif;letter-spacing:-.02em;margin:0 0 .5rem;font-weight:600}
+h1{font-size:clamp(1.8rem,6.5vw,2.6rem);line-height:1.08}
+h2{font-size:clamp(1.3rem,4.5vw,1.65rem)}
+h3{font-size:1.05rem}
+p{margin:0 0 .85rem;color:var(--ink2)}
+a{color:var(--copper)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 18px 28px}
+.section{padding-top:26px;scroll-margin-top:64px}
+.num{color:var(--muted2);font-size:.72rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
+.kicker{color:var(--copper);font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin:0 0 .4rem}
+.lede{font-size:1.05rem;color:var(--ink2)}
+.card{background:var(--bg2);border:1px solid var(--line);border-radius:18px;padding:17px;margin:11px 0}
+.callout{border:1px dashed var(--line2);border-radius:14px;padding:13px 14px;margin:12px 0;background:rgba(224,150,90,.05);font-size:.9rem;color:var(--muted)}
+.callout b{color:var(--copper)}
+.dual{display:grid;grid-template-columns:1fr;gap:1px;border-radius:16px;overflow:hidden;border:1px solid var(--line);margin:14px 0;background:var(--line)}
+.dual-col{padding:15px 16px;background:var(--bg2)}
+.dual-invest{border-left:3px solid var(--copper)}
+.dual-plain{border-left:3px solid var(--sage)}
+.dual-tag{font-size:.66rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin:0 0 6px}
+.dual-invest .dual-tag{color:var(--copper)}
+.dual-plain .dual-tag{color:var(--sage)}
+@media(min-width:800px){.dual{grid-template-columns:1fr 1fr}}
+.tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;margin:12px 0}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:.86rem}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--copper);font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;background:var(--bg3);position:sticky;top:0}
+td{color:var(--ink2)}
+tr:last-child td{border-bottom:0}
+.tiny{color:var(--muted);font-size:.84rem}
+.topbar{position:sticky;top:0;z-index:40;display:flex;align-items:center;gap:10px;padding:calc(10px + var(--top)) 14px 10px;background:rgba(13,12,10,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.topbar .mark{font-family:ui-serif,Georgia,serif;font-weight:700;font-size:1rem}
+.topbar .spacer{flex:1}
+.topbar a.btn{min-height:38px;display:inline-flex;align-items:center;padding:0 12px;border:1px solid var(--line2);border-radius:10px;color:var(--ink);text-decoration:none;font:700 .78rem/1 ui-sans-serif,sans-serif}
+.audience{display:grid;grid-template-columns:1fr;gap:8px;margin:14px 0}
+@media(min-width:640px){.audience{grid-template-columns:1fr 1fr 1fr}}
+.aud-card{display:block;padding:14px 16px;border-radius:16px;border:1px solid var(--line2);background:var(--bg3);text-decoration:none;color:inherit}
+.aud-card b{display:block;font-family:ui-serif,Georgia,serif;font-size:1.05rem;color:var(--ink);margin-bottom:4px}
+.aud-card span{font-size:.82rem;color:var(--muted)}
+.aud-card.on{border-color:var(--copper);box-shadow:0 0 0 1px var(--copper)}
+.sample{background:var(--bg3);border:1px solid var(--line);border-radius:14px;padding:14px 16px;font-family:ui-monospace,Consolas,monospace;font-size:.78rem;line-height:1.55;color:var(--ink2);white-space:pre-wrap;margin:10px 0}
+.nav{position:fixed;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(4,1fr);background:rgba(13,12,10,.94);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:6px 2px calc(9px + var(--safe));z-index:50}
+.nav a{text-align:center;text-decoration:none;color:var(--muted);font-size:10.5px;font-weight:700;padding:9px 1px;min-height:44px}
+ul.clean{margin:0;padding:0 0 0 18px;color:var(--ink2)}
+ul.clean li{margin:4px 0}
+.chipgrid{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0}
+.chipgrid .chip{font-size:.72rem;font-weight:700;padding:6px 11px;border-radius:99px;background:var(--bg3);border:1px solid var(--line2);color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <span class="mark">Frontage playbook</span>
+  <span class="spacer"></span>
+  <a class="btn" href="index.html">← Memo</a>
+</div>
+<div class="wrap">
+  <section class="section" id="top">
+    <p class="kicker" style="margin-top:12px">Every inch of the business</p>
+    <h1>What Frontage actually does — for you, for your sister, and for a plumber who asks “so what do I get?”</h1>
+    <p class="lede">The investor memo explains <b>why</b> and <b>whether the money works</b>. This page explains <b>exactly what happens</b> once someone says yes — task by task, week by week, who touches it, and what the customer sees. Still on paper until the first real shop signs. Nothing here is a promise that it already runs in production.</p>
+    <div class="callout"><b>Three readers, one truth.</b> A plumber cares about deliverables and control. You care about your job vs. the desk vs. automation. Your sister cares that the machine is real, bounded, and not “Shawn becomes the agency.” All three views are below.</div>
+  </section>
+
+  <section class="section" id="pick">
+    <p class="num">Start here</p>
+    <p class="kicker">Pick your lens</p>
+    <h2>Same business, three ways to read it.</h2>
+    <div class="audience">
+      <a class="aud-card on" href="#plumber"><b>For the plumber</b><span>What I pay for, what you do, what I approve, what I keep</span></a>
+      <a class="aud-card on" href="#shawn"><b>For you (Shawn)</b><span>Your job, your yes/no gates, weekly rhythm, what you never do daily</span></a>
+      <a class="aud-card on" href="#investor"><b>For your sister</b><span>Proof the ops are written, bounded, and not founder-dependent</span></a>
+    </div>
+  </section>
+
+  <!-- ========== PLUMBER ========== -->
+  <section class="section" id="plumber">
+    <p class="num">Customer pitch</p>
+    <p class="kicker">If you were the plumber</p>
+    <h2>“We take care of your Google” — spelled out.</h2>
+    <div class="dual">
+      <div class="dual-col dual-plain"><p class="dual-tag">Plain English (what you tell them)</p>
+        <p>You keep your Google Business Profile, Google Ads, and Local Services Ads accounts — we never own them. You fund ads yourself under a monthly cap <b>you</b> set in writing. We keep your public Google presence accurate, draft review replies in your voice, watch your ad spend against your cap, and send you a written report every week. We do <b>not</b> quote jobs, dispatch trucks, promise lead counts, or touch your money.</p>
+        <p style="margin:0"><b>$1,800/month · 90-day minimum · one location.</b> Pause or cancel per the agreement. Sensitive replies wait for your OK before anything goes live.</p>
+      </div>
+      <div class="dual-col dual-invest"><p class="dual-tag">Investor terms (what it really is)</p>
+        <p>Bounded local-demand-operations retainer: customer-owned GBP/Ads/LSA, customer-funded media under written NTE cap, no performance guarantee, no ad-spend float, no account takeover, no licensed trade work. Fulfillment begins only after six activation facts and cleared payment (`PR2_MERGED_ACTIVATION.md`).</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:18px">Weekly ceilings (planning limits — not a job-count promise)</h3>
+    <div class="tblwrap"><table>
+      <tr><th>Task</th><th>Max per week</th><th>Approval</th><th>Forbidden if</th></tr>
+      <tr><td>GBP hours / holiday hours draft</td><td>3 drafts</td><td>Owner-visible; sensitive if hours change</td><td>Shop not ACTIVE</td></tr>
+      <tr><td>Photo / post draft</td><td>5 drafts</td><td>Before publish</td><td>FAB-owned profile</td></tr>
+      <tr><td>Review-reply draft</td><td>10 drafts</td><td>Sensitive stay queued</td><td>Auto-publish complaints / legal</td></tr>
+      <tr><td>Ads / LSA draft inside written cap</td><td>2 change-sets</td><td>MEDIA_OPS; owner funds</td><td>Cap missing or FAB floats spend</td></tr>
+      <tr><td>Weekly owner report</td><td>1</td><td>Send only if ACTIVE</td><td>Invented lead counts</td></tr>
+    </table></div>
+    <p class="tiny">Source: <code>SCOPE_LEDGER_1800.md</code>. Never: quote, diagnose, dispatch, ranking promise, own Google, spend FAB money on ads.</p>
+
+    <h3 style="margin-top:18px">Four SOPs — who does the work (roles, not hires yet)</h3>
+    <div class="tblwrap"><table>
+      <tr><th>SOP</th><th>Work</th><th>Cell</th><th>Time (planning)</th></tr>
+      <tr><td>SOP-1</td><td>Compile proposed / waiting / paused weekly report</td><td>DESK_OPS</td><td>20 min / location / week</td></tr>
+      <tr><td>SOP-2</td><td>Draft review reply; sensitive queued</td><td>DESK_OPS</td><td>12 min / draft</td></tr>
+      <tr><td>SOP-3</td><td>Draft ads/LSA change inside cap</td><td>MEDIA_OPS</td><td>25 min / change</td></tr>
+      <tr><td>SOP-4</td><td>Route lead to shop phone — no quote</td><td>DESK_OPS</td><td>3 min / lead</td></tr>
+    </table></div>
+    <p class="tiny">Entry rule: location must be <b>ACTIVE</b> or do not start. Source: <code>DELIVERY_SOP_LIBRARY.md</code>.</p>
+
+    <h3 style="margin-top:18px">The five workstreams — concrete tasks</h3>
+    <div class="tblwrap"><table>
+      <tr><th>Workstream</th><th>What Frontage does (specific)</th><th>How often</th><th>Who publishes</th></tr>
+      <tr><td><b>Google Business Profile</b></td><td>Verify hours (regular + holiday), service categories, service area, photos, short posts, Q&amp;A drafts, attribute accuracy — all inside owner-approved rules</td><td>Profile audit weekly; hours checked before holidays; posts as warranted (typically 1–2/month unless owner asks otherwise)</td><td>Routine updates per written rules; anything outside rules → approval queue</td></tr>
+      <tr><td><b>Reviews</b></td><td>Monitor new reviews; draft replies matched to owner tone guidelines captured at kickoff</td><td>Within 24–48h of new review</td><td>Routine thank-yous may auto-publish <b>only if</b> pre-approved in writing; negative, legal, or pricing mentions → owner approval required</td></tr>
+      <tr><td><b>Google Ads / LSA</b></td><td>Monitor spend vs written cap; propose bid/budget/creative changes; pause if cap risk; no spend without owner-funded account</td><td>Cap check daily when active; change proposals bundled in weekly report</td><td>No change goes live that exceeds cap; owner-funded only</td></tr>
+      <tr><td><b>Lead routing</b></td><td>Ensure calls/forms from Google surfaces route to shop’s own phone or scheduler — Frontage does not answer as the plumber</td><td>Continuous while ACTIVE</td><td>Frontage configures/routes; shop answers</td></tr>
+      <tr><td><b>Reporting</b></td><td>Written weekly report: what changed, what’s waiting on approval, cap status, open issues</td><td>Every week per location</td><td>Delivered to owner; archived for investor/founder digest</td></tr>
+    </table></div>
+
+    <h3 style="margin-top:18px">What the plumber does vs. what Frontage does</h3>
+    <div class="tblwrap"><table>
+      <tr><th>The plumber (always)</th><th>Frontage (always)</th></tr>
+      <tr><td>Owns Google accounts, trucks, customers, ad money</td><td>Works inside owner accounts only — never creates a workaround profile</td></tr>
+      <tr><td>Quotes jobs, dispatches, does the work</td><td>Never quotes, diagnoses, dispatches, or promises job volume</td></tr>
+      <tr><td>Funds ads under the written cap they set</td><td>Never floats or holds ad spend</td></tr>
+      <tr><td>Approves sensitive review replies and out-of-rule changes</td><td>Drafts, queues, and waits — default is pause, not publish</td></tr>
+      <tr><td>Names pause / approval / escalation contacts</td><td>Uses those contacts — not “call Shawn”</td></tr>
+    </table></div>
+
+    <h3 style="margin-top:18px">First 90 days — week by week (after go-live)</h3>
+    <div class="tblwrap"><table>
+      <tr><th>When</th><th>What happens</th><th>What the owner sees</th></tr>
+      <tr><td><b>Before ACTIVE</b></td><td>Sign exact terms → payment clears → grant usable Google access → written ad cap → name control contacts — all within 72 hours of signature or auto-pause</td><td>Clear status: not started / waiting on payment / waiting on access / live</td></tr>
+      <tr><td><b>Week 1</b></td><td>Five kickoff outputs: (1) access receipt, (2) cap + approver confirmation, (3) 7-day action plan, (4) first approval queue with ≥1 draft waiting, (5) first weekly report</td><td>Nothing sensitive published silently — at least one draft waiting for OK</td></tr>
+      <tr><td><b>Weeks 2–4</b></td><td>Execute approved changes; draft review replies; monitor cap; route leads; first weekly rhythm established</td><td>Weekly report every week; approval pings only when needed</td></tr>
+      <tr><td><b>Months 2–3</b></td><td>Same rhythm; exception routes if access lost, cap hit, wrong output, etc.</td><td>Same; pause anytime per agreement</td></tr>
+    </table></div>
+
+    <h3 style="margin-top:18px">Sample weekly report (fictional Desert Pipe — paper dry-run)</h3>
+    <div class="sample">WEEKLY OWNER REPORT — Desert Pipe LLC (TEST-0000) — paper fixture only
+Offer v1-1800-90d-2026-08-28 · DESK_OPS (not Shawn)
+
+PROPOSED: one Saturday hours draft (8am–4pm). Nothing else this paper week.
+
+WAITING: that hours draft (DP-GBP-HOURS-001). One sensitive review reply also waiting (see SOP-2). Nothing was published.
+
+PAUSED: would pause if payment or access were real — both Missing on this fixture.
+
+CAP: $1,200 monthly NTE written. $0 customer ads moved. FAB spent $0.
+
+LEADS / RANKINGS: none claimed. We do not invent a job count.
+
+HOW TO PAUSE: tell named pause person (Alex Rivera, fictional). You keep Google.</div>
+    <p class="tiny">From <code>SOP_DRY_RUN_01.md</code> — fictional shop, not a live customer. Real format uses Proposed / Waiting / Paused / Cap sections.</p>
+
+    <h3 style="margin-top:18px">Two different weekly reports (do not mix them up)</h3>
+    <div class="tblwrap"><table>
+      <tr><th>Report</th><th>Who gets it</th><th>Contents</th></tr>
+      <tr><td><b>Owner weekly report</b></td><td>Plumber customer</td><td>Proposed / waiting / paused / cap — plain language, no invented metrics</td></tr>
+      <tr><td><b>Founder weekly health</b></td><td>You (Shawn)</td><td>Register counts, activation stalls, exceptions, insurance, kill switch — see <code>WEEKLY_HEALTH.md</code></td></tr>
+    </table></div>
+  </section>
+
+  <!-- ========== SHAWN ========== -->
+  <section class="section" id="shawn">
+    <p class="num">Founder operating manual</p>
+    <p class="kicker">For you</p>
+    <h2>Your job is not the desk. Here is what you actually do.</h2>
+    <div class="card">
+      <h3 class="ok" style="color:var(--sage)">You do (designed)</h3>
+      <ul class="clean">
+        <li>Read the <b>weekly health digest</b> — register, activation states, exceptions, cap alerts, kill-switch status</li>
+        <li>Hold the <b>global kill switch</b> — pauses all fulfillment if something systemic breaks</li>
+        <li>Authorize the big gates: legal name/DBA, insurance quote spend, public site, first outreach, Stripe live</li>
+        <li>Make the <b>first sale</b> (until a sales process exists beyond you)</li>
+        <li>Decide when paper becomes real — nothing below spends or contacts without your yes</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 style="color:var(--warn)">You do not (by design)</h3>
+      <ul class="clean">
+        <li>Daily GBP edits, daily review replies, daily ad tweaks</li>
+        <li>Answering the plumber’s customer calls</li>
+        <li>Quoting jobs or dispatching trucks</li>
+        <li>Default exception handler — eight named routes go to operator cells, not you</li>
+        <li>Touching customer ad money or owning their Google login</li>
+      </ul>
+    </div>
+
+    <h3 style="margin-top:16px">Named operator cells (roles, not hires yet)</h3>
+    <div class="chipgrid">
+      <span class="chip">DESK_OPS — outreach records, binary close, weekly compile</span>
+      <span class="chip">ACCESS_OPS — Google access, 72h clock, pause on access loss</span>
+      <span class="chip">BILLING_OPS — payment facts, refunds, chargebacks</span>
+      <span class="chip">MEDIA_OPS — ad cap, media queue, cap alerts</span>
+      <span class="chip">INCIDENT_OPS — data incidents</span>
+      <span class="chip">EXCEPTION_CELL — only after volume triggers (PR-3)</span>
+    </div>
+    <p class="tiny">At launch these can be you + automation + AI agents filling queues — but the <b>rules</b> say they are not “Shawn’s inbox” by default.</p>
+
+    <h3 style="margin-top:16px">Your decision gates — in order (nothing skipped)</h3>
+    <div class="tblwrap"><table>
+      <tr><th>Gate</th><th>Status today</th><th>What unlocks</th></tr>
+      <tr><td>1. You understand the business (this book + memo)</td><td><b>Now</b></td><td>Confidence to explain it to your sister and a plumber</td></tr>
+      <tr><td>2. Legal name / DBA filed</td><td>Not started</td><td>Checks payable to a real entity</td></tr>
+      <tr><td>3. Insurance quote (real USD)</td><td>Blocked — no quote</td><td>Shop 7 scale stop clears on paper</td></tr>
+      <tr><td>4. Minimal public site + Stripe</td><td>Not started</td><td>Owner can pay without a handshake-only invoice</td></tr>
+      <tr><td>5. Outreach yes — contact 20 named shops</td><td>Paused — 0 contacted</td><td>14-day kill test clock can start</td></tr>
+      <tr><td>6. First signature + ACTIVE shop</td><td>Not started</td><td>Real weekly customer reports begin</td></tr>
+    </table></div>
+
+    <h3 style="margin-top:16px">Your weekly health digest (founder version)</h3>
+    <div class="sample">WEEKLY HEALTH — Week of [date]
+Kill switch: OFF
+Active locations: 0
+Register: 20 rows · 0 contacted · 0 signed
+Activation stalls: 0
+Open exceptions: 0
+PR-3 operator-cell triggers: none
+Insurance: Missing-not-eligible
+Startup cap spent: $0 / $5,000
+Founder action needed: [none | lift outreach pause | approve spend X]</div>
+
+    <h3 style="margin-top:16px">If your sister covers for you</h3>
+    <div class="dual">
+      <div class="dual-col dual-plain"><p class="dual-tag">She may</p>
+        <ul class="clean"><li>Open this playbook + weekly health</li><li>Hit kill switch</li><li>Pause one shop if access looks wrong</li></ul>
+      </div>
+      <div class="dual-col dual-invest"><p class="dual-tag">She may not</p>
+        <ul class="clean"><li>Change price or terms</li><li>Email/call plumbers</li><li>File LLC, buy insurance, turn on Stripe</li><li>Promise results or float ad spend</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== INVESTOR ========== -->
+  <section class="section" id="investor">
+    <p class="num">Investor lens</p>
+    <p class="kicker">For your sister</p>
+    <h2>Why this is not “Shawn becomes an agency.”</h2>
+    <p>The business only works for you as an investor if the operating system is <b>written before revenue</b>, bounded, and falsifiable. That is what the internal desk kit is — activation machine, exception card, dual ledger, weekly health — even though nothing is live yet.</p>
+    <div class="tblwrap"><table>
+      <tr><th>Question she should ask</th><th>Answer (with evidence on disk)</th></tr>
+      <tr><td>What exactly do customers get?</td><td>Five workstreams above with frequencies + sample weekly report — not vague “Google management”</td></tr>
+      <tr><td>How do you prevent account takeover?</td><td>Customer-owned accounts frozen in concession ceiling; access loss → pause in 2h; no workaround logins</td></tr>
+      <tr><td>What if nobody buys?</td><td>20-shop / 14-day kill test — 0 signed → re-examine, not defend</td></tr>
+      <tr><td>What if Shawn gets sick?</td><td>Coverage rules + kill switch; exceptions routed to named cells; weekly digest continues</td></tr>
+      <tr><td>Where is the money?</td><td>Dual ledger — demand vs. contribution; $0 actual today; projections labeled paper</td></tr>
+      <tr><td>What is still missing?</td><td>Ownership %, your check size, insurance quote, Stripe, site, first signature — all disclosed, not hidden</td></tr>
+    </table></div>
+    <div class="callout"><b>What she should receive ongoing:</b> dated scorecard, milestones hit vs. ahead, real cash in two ledgers, this playbook updated when scope changes, and the kill-test result when outreach starts.</div>
+  </section>
+
+  <!-- ========== GAPS ========== -->
+  <section class="section" id="gaps">
+    <p class="num">Honest gaps</p>
+    <p class="kicker">Still not built / not written</p>
+    <h2>What we have not done yet — on purpose.</h2>
+    <div class="tblwrap"><table>
+      <tr><th>Item</th><th>Why it matters</th><th>Status</th></tr>
+      <tr><td>Live customer portal / approval UI</td><td>Plumber taps approve on phone</td><td>Spec only — email/link workflow first</td></tr>
+      <tr><td>Signed contracts in customer hands</td><td>Legal closure</td><td>Drafts on disk, unsigned</td></tr>
+      <tr><td>Stripe + payment link</td><td>Collect $1,800</td><td>Not created until terms accepted</td></tr>
+      <tr><td>Public website</td><td>Cold owner finds offer</td><td>IA written, not deployed</td></tr>
+      <tr><td>Real shop weekly report</td><td>Proof of delivery</td><td>Sample format only (above)</td></tr>
+      <tr><td>Insurance USD</td><td>Scale past shop 7</td><td>Missing — blocks that milestone</td></tr>
+      <tr><td>Your ownership agreement with sister</td><td>Investor clarity</td><td>Not written yet — biggest governance gap</td></tr>
+    </table></div>
+    <p class="tiny">Updated August 31, 2026. Full file map: <a href="documents.html">document inventory</a>.</p>
+  </section>
+</div>
+
+<nav class="nav">
+  <a href="#plumber">Plumber</a>
+  <a href="#shawn">You</a>
+  <a href="documents.html">Files</a>
+  <a href="index.html">Memo</a>
+</nav>
+</body>
+</html>
